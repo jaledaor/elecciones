@@ -9,6 +9,10 @@ package Clases;
  *
  * @author hueck
  */
-public class ClsVotante {
+public class ClsVotante extends ClsPersona{
+
+    public ClsVotante(String numeroDocumento, String nombre, String tipoDocumento, String telefono, String correo) {
+        super(numeroDocumento, nombre, tipoDocumento, telefono, correo);
+    }
     
 }

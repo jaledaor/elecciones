@@ -7,6 +7,7 @@ package Controladores;
 
 import Clases.ClsCandidato;
 import Modelos.MdlCandidato;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,6 +26,7 @@ public class CtlCandidato {
     
     public boolean agregarCandidato(ClsCandidato candidato){
         
+        JOptionPane.showMessageDialog(null, candidato.toString());
         boolean respuesta = this.modeloCandidato.agregarCandidato(candidato);
         
         return true;
