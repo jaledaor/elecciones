@@ -15,4 +15,6 @@ public class ClsVotante extends ClsPersona{
         super(numeroDocumento, nombre, tipoDocumento, telefono, correo);
     }
     
+    
+    
 }

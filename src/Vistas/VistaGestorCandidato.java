@@ -63,12 +63,16 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         comboPartido = new javax.swing.JComboBox<>();
         comboTipoDocumento = new javax.swing.JComboBox<>();
         botonAgregar = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel3.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(204, 0, 51));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Gestor Candidato");
 
@@ -242,6 +246,29 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Formulario", jPanel2);
 
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(73, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("Listado Candidatos", jPanel3);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -252,7 +279,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(botonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
-            .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
+            .addComponent(jTabbedPane2)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -303,10 +330,9 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         String descripcion = this.campoDescripcion.getText();
         String mensajeCampania= this.campoMensajeCampania.getText();
         List propuestas= this.listadoPropuestas.getSelectedValuesList();
-        
-        
+
         ClsCandidato candidato= new ClsCandidato(tipoDocumento, numeroDocumento,nombre,telefono,correo,partidoP,ciudad,descripcion,mensajeCampania,propuestas);
-        
+
         this.comboTipoDocumento.setSelectedIndex(0);
         this.campoNumeroDocumento.setText("");
         this.campoNombre.setText("");
@@ -317,10 +343,9 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         this.campoDescripcion.setText("");
         this.campoMensajeCampania.setText("");
         this.listadoPropuestas.setSelectedIndex(0);
-        
+
         boolean respuesta = this.controladorCandidato.agregarCandidato(candidato);
-        
-        
+
     }//GEN-LAST:event_botonAgregarActionPerformed
 
     private void comboPartidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPartidoActionPerformed
@@ -404,8 +429,11 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JList<String> listadoPropuestas;
     // End of variables declaration//GEN-END:variables
 }
