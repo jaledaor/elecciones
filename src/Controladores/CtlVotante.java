@@ -23,12 +23,23 @@ public class CtlVotante {
     
     
     
-public boolean agregarCandidato(ClsVotante votante){
+public boolean agregarVotante(ClsVotante votante){
         
-        JOptionPane.showMessageDialog(null, votante.toString());
-        boolean respuesta = this.modeloVotante.agregarCandidato(votante);
+        JOptionPane.showMessageDialog(null, votante);
+        JOptionPane.showMessageDialog(null,"modelo: "+ modeloVotante);
+        boolean respuesta = this.modeloVotante.agregarVotante(votante);
         
-        return true;
+        JOptionPane.showMessageDialog(null, respuesta);
+        
+        return respuesta;
+    }
+
+public boolean consultarVotante(ClsVotante votante){
+        
+        //JOptionPane.showMessageDialog(null, votante.toString());
+        boolean respuesta = this.modeloVotante.consultarVotante(votante);
+        
+        return respuesta;
     }
     
 }

@@ -16,10 +16,10 @@ public class ClsPersona {
     private String telefono;
     private String correo;
 
-    public ClsPersona(String numeroDocumento, String nombre, String tipoDocumento, String telefono, String correo) {
+    public ClsPersona(String tipoDocumento, String numeroDocumento, String nombre, String telefono, String correo) {
+        this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;
         this.nombre = nombre;
-        this.tipoDocumento = tipoDocumento;
         this.telefono = telefono;
         this.correo = correo;
     }

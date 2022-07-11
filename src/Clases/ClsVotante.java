@@ -11,8 +11,8 @@ package Clases;
  */
 public class ClsVotante extends ClsPersona{
 
-    public ClsVotante(String numeroDocumento, String nombre, String tipoDocumento, String telefono, String correo) {
-        super(numeroDocumento, nombre, tipoDocumento, telefono, correo);
+    public ClsVotante(String tipoDocumento, String numeroDocumento, String nombre, String telefono, String correo) {
+        super(tipoDocumento, numeroDocumento, nombre, telefono, correo);
     }
     
     

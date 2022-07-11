@@ -8,13 +8,14 @@ package Vistas;
 import Clases.ClsVotante;
 import Controladores.CtlVotante;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author hueck
  */
 public class VistaGestorVotante extends javax.swing.JFrame {
-    
+    boolean respuesta;
     JFrame menuPrincipal;
     CtlVotante controladorVotante;
     
@@ -53,7 +54,8 @@ public class VistaGestorVotante extends javax.swing.JFrame {
         botonAgregar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        areaResultados = new javax.swing.JTextArea();
+        jButton1 = new javax.swing.JButton();
         botonVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -118,14 +120,6 @@ public class VistaGestorVotante extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(112, 112, 112)
-                        .addComponent(campoNombre))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(35, 35, 35)
-                        .addComponent(campoNumeroDocumento))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(67, 67, 67)
                         .addComponent(comboTipoDocumento, 0, 197, Short.MAX_VALUE))
@@ -135,8 +129,16 @@ public class VistaGestorVotante extends javax.swing.JFrame {
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(91, 91, 91)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(campoCorreo)
-                            .addComponent(campoTelefono))))
+                            .addComponent(campoTelefono)
+                            .addComponent(campoCorreo)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addGap(35, 35, 35)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoNumeroDocumento)
+                            .addComponent(campoNombre))))
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(144, 144, 144)
@@ -168,14 +170,16 @@ public class VistaGestorVotante extends javax.swing.JFrame {
                     .addComponent(jLabel11))
                 .addGap(28, 28, 28)
                 .addComponent(botonAgregar)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Formulario", jPanel2);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        areaResultados.setColumns(20);
+        areaResultados.setRows(5);
+        jScrollPane1.setViewportView(areaResultados);
+
+        jButton1.setText("Consultar");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -183,15 +187,21 @@ public class VistaGestorVotante extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(143, 143, 143)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(144, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Listado Votantes", jPanel3);
@@ -224,7 +234,7 @@ public class VistaGestorVotante extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(botonVolver))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -274,15 +284,27 @@ public class VistaGestorVotante extends javax.swing.JFrame {
         String telefono = this.campoTelefono.getText();
         String correo = this.campoCorreo.getText();
         
+        JOptionPane.showMessageDialog(null, "tipoDocumento: "+tipoDocumento+" numeroDocumento: "+numeroDocumento+" nombre: "+nombre+" telefono: "+telefono+" correo: "+correo);
+        
         ClsVotante votante= new ClsVotante(tipoDocumento, numeroDocumento,nombre,telefono,correo);
-
+        
+        JOptionPane.showMessageDialog(this, votante);
+        
+        respuesta = this.controladorVotante.agregarVotante(votante);
+        
+         if (respuesta){
+            JOptionPane.showMessageDialog(null, respuesta);
+        }
+        
         this.comboTipoDocumento.setSelectedIndex(0);
         this.campoNumeroDocumento.setText("");
         this.campoNombre.setText("");
         this.campoTelefono.setText("");
         this.campoCorreo.setText("");
 
-        boolean respuesta = this.controladorVotante.agregarCandidato(votante);
+        
+        
+       
     }//GEN-LAST:event_botonAgregarActionPerformed
 
     private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
@@ -328,6 +350,7 @@ public class VistaGestorVotante extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea areaResultados;
     private javax.swing.JButton botonAgregar;
     private javax.swing.JButton botonVolver;
     private javax.swing.JTextField campoCorreo;
@@ -335,6 +358,7 @@ public class VistaGestorVotante extends javax.swing.JFrame {
     private javax.swing.JTextField campoNumeroDocumento;
     private javax.swing.JTextField campoTelefono;
     private javax.swing.JComboBox<String> comboTipoDocumento;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
@@ -346,6 +370,5 @@ public class VistaGestorVotante extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }

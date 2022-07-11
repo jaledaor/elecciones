@@ -19,8 +19,8 @@ public class ClsCandidato extends ClsPersona{
     private String mensajeCampania;
     private List propuestas;
 
-    public ClsCandidato(String numeroDocumento, String nombre, String tipoDocumento, String telefono, String correo,String partidoPolitico, String ciudadOrigen, String descripcion, String mensajeCampania, List propuestas) {
-        super(numeroDocumento, nombre, tipoDocumento, telefono, correo);
+    public ClsCandidato(String numeroDocumento, String tipoDocumento, String nombre,String telefono, String correo,String partidoPolitico, String ciudadOrigen, String descripcion, String mensajeCampania, List propuestas) {
+        super(tipoDocumento, numeroDocumento, nombre, telefono, correo);
         this.partidoPolitico = partidoPolitico;
         this.ciudadOrigen = ciudadOrigen;
         this.descripcion = descripcion;

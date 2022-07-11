@@ -26,7 +26,7 @@ public class CtlCandidato {
     
     public boolean agregarCandidato(ClsCandidato candidato){
         
-        JOptionPane.showMessageDialog(null, candidato.toString());
+        //JOptionPane.showMessageDialog(null, candidato.toString());
         boolean respuesta = this.modeloCandidato.agregarCandidato(candidato);
         
         return true;
