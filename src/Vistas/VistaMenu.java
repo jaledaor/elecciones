@@ -11,12 +11,14 @@ package Vistas;
  */
 public class VistaMenu extends javax.swing.JFrame {
     VistaGestorCandidato vistaCandidato;
+    VistaGestorVotante vistavotante;
     /**
      * Creates new form VistaMenu
      */
     public VistaMenu() {
         initComponents();
         this.vistaCandidato= new VistaGestorCandidato(this);
+        this.vistavotante= new VistaGestorVotante(this);
     }
 
     /**
@@ -51,6 +53,11 @@ public class VistaMenu extends javax.swing.JFrame {
 
         botonGestionVotante.setFont(new java.awt.Font("Calibri", 1, 11)); // NOI18N
         botonGestionVotante.setText("Registro Votante");
+        botonGestionVotante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGestionVotanteActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Calibri", 1, 11)); // NOI18N
         jButton3.setText("Votar");
@@ -111,6 +118,11 @@ public class VistaMenu extends javax.swing.JFrame {
         this.setVisible(false);
         this.vistaCandidato.setVisible(true);
     }//GEN-LAST:event_botonGestorCandidatoActionPerformed
+
+    private void botonGestionVotanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGestionVotanteActionPerformed
+        this.setVisible(false);
+        this.vistavotante.setVisible(true);
+    }//GEN-LAST:event_botonGestionVotanteActionPerformed
 
     /**
      * @param args the command line arguments
