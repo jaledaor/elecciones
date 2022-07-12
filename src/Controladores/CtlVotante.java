@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 public class CtlVotante {
     
     MdlVotante modeloVotante;
+    boolean respuesta;
 
     public CtlVotante() {
         this.modeloVotante = modeloVotante;
@@ -25,9 +26,10 @@ public class CtlVotante {
     
 public boolean agregarVotante(ClsVotante votante){
         
-        JOptionPane.showMessageDialog(null, votante);
-        JOptionPane.showMessageDialog(null,"modelo: "+ modeloVotante);
-        boolean respuesta = this.modeloVotante.agregarVotante(votante);
+        JOptionPane.showMessageDialog(null,"modelo: "+ modeloVotante+ " Clase: "+ votante);
+        
+        
+        respuesta = this.modeloVotante.agregarVotante(votante);
         
         JOptionPane.showMessageDialog(null, respuesta);
         
