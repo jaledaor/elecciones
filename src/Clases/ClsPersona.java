@@ -24,6 +24,11 @@ public class ClsPersona {
         this.correo = correo;
     }
 
+    public ClsPersona() {
+    }
+    
+    
+
     public String getNumeroDocumento() {
         return numeroDocumento;
     }

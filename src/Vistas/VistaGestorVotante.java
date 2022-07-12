@@ -64,6 +64,15 @@ public class VistaGestorVotante extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 0, 51));
         jLabel1.setText("Registro Votantes");
 
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MousePressed(evt);
+            }
+        });
+
         jLabel5.setText("Tipo Documento");
 
         comboTipoDocumento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cedula Ciudadania", "Pasaporte", "Cedula Extranjeria" }));
@@ -179,7 +188,12 @@ public class VistaGestorVotante extends javax.swing.JFrame {
         areaResultados.setRows(5);
         jScrollPane1.setViewportView(areaResultados);
 
-        jButton1.setText("Consultar");
+        jButton1.setText("Refrescar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -277,9 +291,9 @@ public class VistaGestorVotante extends javax.swing.JFrame {
         ClsVotante votante= new ClsVotante(tipoDocumento, numeroDocumento,nombre,telefono,correo);
         
         respuesta = this.controladorVotante.agregarVotante(votante);
-
+        
         if (respuesta){
-            JOptionPane.showMessageDialog(null, respuesta);
+            JOptionPane.showMessageDialog(null, "Votante Ingresado Correctamente a la BD");
         }
 
         this.comboTipoDocumento.setSelectedIndex(0);
@@ -309,6 +323,23 @@ public class VistaGestorVotante extends javax.swing.JFrame {
     private void comboTipoDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTipoDocumentoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboTipoDocumentoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        ClsVotante votante = new ClsVotante();
+        String listado = this.controladorVotante.consultarVotante(votante);
+        areaResultados.setText(listado);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void jTabbedPane1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MousePressed
+        ClsVotante votante = new ClsVotante();
+        String listado = this.controladorVotante.consultarVotante(votante);
+        areaResultados.setText(listado);
+    }//GEN-LAST:event_jTabbedPane1MousePressed
 
     /**
      * @param args the command line arguments

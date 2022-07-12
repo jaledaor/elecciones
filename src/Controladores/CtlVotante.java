@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  */
 public class CtlVotante {
     
-    MdlVotante modeloVotante;
+    MdlVotante modeloVotante = new MdlVotante();
     boolean respuesta;
 
     public CtlVotante() {
@@ -24,23 +24,15 @@ public class CtlVotante {
     
     
     
-public boolean agregarVotante(ClsVotante votante){
-        
-        JOptionPane.showMessageDialog(null,"modelo: "+ modeloVotante+ " Clase: "+ votante);
-        
+public boolean agregarVotante(ClsVotante votante){    
         
         respuesta = this.modeloVotante.agregarVotante(votante);
-        
-        JOptionPane.showMessageDialog(null, respuesta);
-        
         return respuesta;
     }
 
-public boolean consultarVotante(ClsVotante votante){
+public String consultarVotante(ClsVotante votante){
         
-        //JOptionPane.showMessageDialog(null, votante.toString());
-        boolean respuesta = this.modeloVotante.consultarVotante(votante);
-        
+        String respuesta = this.modeloVotante.consultarVotante(votante);
         return respuesta;
     }
     

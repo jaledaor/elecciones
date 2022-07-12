@@ -9,12 +9,16 @@ package Clases;
  *
  * @author hueck
  */
-public class ClsVotante extends ClsPersona{
+public class ClsVotante extends ClsPersona {
 
     public ClsVotante(String tipoDocumento, String numeroDocumento, String nombre, String telefono, String correo) {
         super(tipoDocumento, numeroDocumento, nombre, telefono, correo);
     }
-
+    
+    public ClsVotante(){
+    
+    }
+    
     @Override
     public void setCorreo(String correo) {
         super.setCorreo(correo); //To change body of generated methods, choose Tools | Templates.
@@ -64,7 +68,4 @@ public class ClsVotante extends ClsPersona{
     public String getNumeroDocumento() {
         return super.getNumeroDocumento(); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-    
 }

@@ -12,10 +12,11 @@ import java.sql.*;
  * @author hueck
  */
 public class Conexion {
-    private final String base ="elecciones";
+    private final String base ="bd_elecciones";
     private final String user="root";
     private final String passwd="1234567890";
-    private final String url="jdbc:mysql://localhost:3306/"+base+"?useUnicode=true&use";
+    private final String url="jdbc:mysql://localhost:3306/"+base+"?useUnicode=true&useJDBCCompliantTimezoneShift=true"
+            + "&useLegacyDatetimeCode=false&serverTimezone=UTC";
     private Connection con=null;
  
     public Connection Conexion(){
@@ -25,8 +26,8 @@ public class Conexion {
             con=DriverManager.getConnection(this.url,this.user, this.passwd);
             if(con!=null){
                 System.out.println("Conexión Exitosa a la BD: "+base);
-                return con;
-            }
+                
+            }else {System.out.println("no hay conexion a la bd: "+base);}
         }
         catch(ClassNotFoundException e){
             System.out.println("Ocurrió un error ClassNotFoundException: "+e.getMessage());
@@ -36,4 +37,5 @@ public class Conexion {
         }
         return con;
     }
+    
 }
