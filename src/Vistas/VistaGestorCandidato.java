@@ -65,7 +65,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         botonAgregar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        areaResultados = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -82,6 +82,12 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         botonVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonVolverActionPerformed(evt);
+            }
+        });
+
+        jTabbedPane2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTabbedPane2MousePressed(evt);
             }
         });
 
@@ -124,6 +130,12 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         });
 
         jLabel9.setText("Mensaje Campaña");
+
+        campoMensajeCampania.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoMensajeCampaniaActionPerformed(evt);
+            }
+        });
 
         jLabel10.setText("Propuestas");
 
@@ -169,14 +181,14 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                             .addComponent(jLabel8)
                             .addComponent(jLabel9)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(62, 62, 62)
+                        .addGap(56, 56, 56)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(campoTelefono)
-                            .addComponent(campoMensajeCampania)
-                            .addComponent(campoDescripcion)
-                            .addComponent(campoCiudad)
+                            .addComponent(campoCorreo)
                             .addComponent(comboPartido, 0, 195, Short.MAX_VALUE)
-                            .addComponent(campoCorreo)))
+                            .addComponent(campoCiudad)
+                            .addComponent(campoDescripcion)
+                            .addComponent(campoMensajeCampania)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -186,10 +198,10 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(comboTipoDocumento, javax.swing.GroupLayout.Alignment.LEADING, 0, 195, Short.MAX_VALUE)
                             .addComponent(campoNombre, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(campoNumeroDocumento))
+                            .addComponent(campoNumeroDocumento, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(28, 28, 28)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -247,11 +259,11 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Formulario", jPanel2);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        areaResultados.setColumns(20);
+        areaResultados.setRows(5);
+        jScrollPane2.setViewportView(areaResultados);
 
-        jButton1.setText("Consultar");
+        jButton1.setText("Refrescar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -263,22 +275,23 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(292, 292, 292)
-                .addComponent(jButton1)
-                .addContainerGap(333, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(292, 292, 292)
+                        .addComponent(jButton1))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(35, 35, 35))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jTabbedPane2.addTab("Listado Candidatos", jPanel3);
@@ -288,12 +301,15 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(139, 139, 139)
+                .addContainerGap(298, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(220, 220, 220)
                 .addComponent(botonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
-            .addComponent(jTabbedPane2)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -345,7 +361,9 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         String mensajeCampania= this.campoMensajeCampania.getText();
         List propuestas= this.listadoPropuestas.getSelectedValuesList();
 
-        ClsCandidato candidato= new ClsCandidato(tipoDocumento, numeroDocumento,nombre,telefono,correo,partidoP,ciudad,descripcion,mensajeCampania,propuestas);
+        ClsCandidato candidato= new ClsCandidato(numeroDocumento, tipoDocumento, nombre,telefono,correo,partidoP,ciudad,descripcion,mensajeCampania,propuestas);
+        
+        boolean respuesta = this.controladorCandidato.agregarCandidato(candidato);
 
         this.comboTipoDocumento.setSelectedIndex(0);
         this.campoNumeroDocumento.setText("");
@@ -358,7 +376,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         this.campoMensajeCampania.setText("");
         this.listadoPropuestas.setSelectedIndex(0);
 
-        boolean respuesta = this.controladorCandidato.agregarCandidato(candidato);
+        
 
     }//GEN-LAST:event_botonAgregarActionPerformed
 
@@ -383,8 +401,20 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     }//GEN-LAST:event_campoNumeroDocumentoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        ClsCandidato candidato = new ClsCandidato();
+        String listado = this.controladorCandidato.consultarCandidato(candidato);
+        areaResultados.setText(listado);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTabbedPane2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane2MousePressed
+       ClsCandidato candidato = new ClsCandidato();
+        String listado = this.controladorCandidato.consultarCandidato(candidato);
+        areaResultados.setText(listado);
+    }//GEN-LAST:event_jTabbedPane2MousePressed
+
+    private void campoMensajeCampaniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoMensajeCampaniaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoMensajeCampaniaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -422,6 +452,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea areaResultados;
     private javax.swing.JButton botonAgregar;
     private javax.swing.JButton botonVolver;
     private javax.swing.JTextField campoCiudad;
@@ -452,7 +483,6 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JList<String> listadoPropuestas;
     // End of variables declaration//GEN-END:variables
 }
