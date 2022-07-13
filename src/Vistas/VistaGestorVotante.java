@@ -7,6 +7,8 @@ package Vistas;
 
 import Clases.ClsVotante;
 import Controladores.CtlVotante;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -19,6 +21,15 @@ public class VistaGestorVotante extends javax.swing.JFrame {
     boolean respuesta;
     JFrame menuPrincipal;
     CtlVotante controladorVotante;
+    String tipoDocumento;
+    String numeroDocumento;
+    String nombre;
+    String telefono;
+    String correo;
+    // Patrón para validar el email
+    Pattern patron = Pattern
+            .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 
     /**
      * Creates new form VistaVotante
@@ -278,27 +289,51 @@ public class VistaGestorVotante extends javax.swing.JFrame {
     }//GEN-LAST:event_botonVolverActionPerformed
 
     private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
-        String tipoDocumento = this.comboTipoDocumento.getSelectedItem().toString();
-        String numeroDocumento = this.campoNumeroDocumento.getText();
-        String nombre = this.campoNombre.getText();
-        String telefono = this.campoTelefono.getText();
-        String correo = this.campoCorreo.getText();
-
-        ClsVotante votante = new ClsVotante(tipoDocumento, numeroDocumento, nombre, telefono, correo);
-
-        respuesta = this.controladorVotante.agregarVotante(votante);
-
-        if (respuesta == true) {
-            JOptionPane.showMessageDialog(null, "Votante Ingresado Correctamente a la BD");
+        if (this.comboTipoDocumento.getSelectedItem().toString().equals("")) {
+            JOptionPane.showMessageDialog(this, "El campo Tipo de Documento no puede ser Vacio");
         } else {
-            JOptionPane.showMessageDialog(null, "El Votante no pudo ser agregado a la BD");
+            tipoDocumento = this.comboTipoDocumento.getSelectedItem().toString();
+            if (this.campoNumeroDocumento.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "El campo Numero de Documento no puede ser Vacio");
+            } else {
+                numeroDocumento = this.campoNumeroDocumento.getText();
+                if (this.campoNombre.getText().equals("")) {
+                    JOptionPane.showMessageDialog(this, "El campo Nombre no puede ser Vacio");
+                } else {
+                    nombre = this.campoNombre.getText();
+                    if (this.campoTelefono.getText().equals("")) {
+                        JOptionPane.showMessageDialog(this, "El campo Telefono no puede ser Vacio");
+                    } else {
+                        telefono = this.campoTelefono.getText();
+                        if (this.campoCorreo.getText().equals("")) {
+                            JOptionPane.showMessageDialog(this, "El campo Correo no puede ser Vacio");
+                        } else {
+                            correo = this.campoCorreo.getText();
+                            Matcher mather = patron.matcher(correo);
+                            if (mather.find() == true) {
+                                System.out.println("El email ingresado es válido.");
+                                ClsVotante votante = new ClsVotante(tipoDocumento, numeroDocumento, nombre, telefono, correo);
+                                respuesta = this.controladorVotante.agregarVotante(votante);
+                                if (respuesta == true) {
+                                    JOptionPane.showMessageDialog(null, "Votante Ingresado Correctamente a la BD");
+                                    this.comboTipoDocumento.setSelectedIndex(0);
+                                    this.campoNumeroDocumento.setText("");
+                                    this.campoNombre.setText("");
+                                    this.campoTelefono.setText("");
+                                    this.campoCorreo.setText("");
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "El Votante no pudo ser agregado a la BD");
+                                }
+                            } else {
+                                System.out.println("El email ingresado es inválido.");
+                                JOptionPane.showMessageDialog(this, "El correo ingresado no cumplecon el formato solicitado: ejemplo@ejemplo.com");
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        this.comboTipoDocumento.setSelectedIndex(0);
-        this.campoNumeroDocumento.setText("");
-        this.campoNombre.setText("");
-        this.campoTelefono.setText("");
-        this.campoCorreo.setText("");
 
     }//GEN-LAST:event_botonAgregarActionPerformed
 

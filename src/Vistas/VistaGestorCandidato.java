@@ -8,22 +8,42 @@ package Vistas;
 import Clases.ClsCandidato;
 import Controladores.CtlCandidato;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author hueck
  */
 public class VistaGestorCandidato extends javax.swing.JFrame {
+
     JFrame menuPrincipal;
     CtlCandidato controladorCandidato;
+    boolean respuesta;
+    String tipoDocumento;
+    String numeroDocumento;
+    String nombre;
+    String telefono;
+    String correo;
+    String partidoP;
+    String ciudad;
+    String descripcion;
+    String mensajeCampania;
+    List propuestas;
+    // Patrón para validar el email
+    Pattern patron = Pattern
+            .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+
     /**
      * Creates new form VistaGestorCandidato
      */
     public VistaGestorCandidato(JFrame menuPrincipal) {
         initComponents();
-        this.menuPrincipal=menuPrincipal;
-        this.controladorCandidato=new CtlCandidato();
+        this.menuPrincipal = menuPrincipal;
+        this.controladorCandidato = new CtlCandidato();
     }
 
     /**
@@ -346,37 +366,89 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
         this.setVisible(false);
         this.menuPrincipal.setVisible(true);
-        
+
     }//GEN-LAST:event_botonVolverActionPerformed
 
     private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
-        String tipoDocumento = this.comboTipoDocumento.getSelectedItem().toString();
-        String numeroDocumento = this.campoNumeroDocumento.getText();
-        String nombre = this.campoNombre.getText();
-        String telefono = this.campoTelefono.getText();
-        String correo = this.campoCorreo.getText();
-        String partidoP =  this.comboPartido.getSelectedItem().toString();
-        String ciudad = this.campoCiudad.getText();
-        String descripcion = this.campoDescripcion.getText();
-        String mensajeCampania= this.campoMensajeCampania.getText();
-        List propuestas= this.listadoPropuestas.getSelectedValuesList();
+        List propuestas = this.listadoPropuestas.getSelectedValuesList();
 
-        ClsCandidato candidato= new ClsCandidato(numeroDocumento, tipoDocumento, nombre,telefono,correo,partidoP,ciudad,descripcion,mensajeCampania,propuestas);
-        
-        boolean respuesta = this.controladorCandidato.agregarCandidato(candidato);
+        if (this.comboTipoDocumento.getSelectedItem().toString().equals("")) {
+            JOptionPane.showMessageDialog(this, "El campo Tipo de Documento no puede ser Vacio");
+        } else {
+            tipoDocumento = this.comboTipoDocumento.getSelectedItem().toString();
+            if (this.campoNumeroDocumento.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "El campo Numero de Documento no puede ser Vacio");
+            } else {
+                numeroDocumento = this.campoNumeroDocumento.getText();
+                if (this.campoNombre.getText().equals("")) {
+                    JOptionPane.showMessageDialog(this, "El campo Nombre no puede ser Vacio");
+                } else {
+                    nombre = this.campoNombre.getText();
+                    if (this.campoTelefono.getText().equals("")) {
+                        JOptionPane.showMessageDialog(this, "El campo Telefono no puede ser Vacio");
+                    } else {
+                        telefono = this.campoTelefono.getText();
+                        if (this.campoCorreo.getText().equals("")) {
+                            JOptionPane.showMessageDialog(this, "El campo Correo no puede ser Vacio");
+                        } else {
+                            correo = this.campoCorreo.getText();
+                            Matcher mather = patron.matcher(correo);
+                            if (mather.find() == true) {
+                                System.out.println("El email ingresado es válido.");
+                                if (this.comboPartido.getSelectedItem().toString().equals("")) {
+                                    JOptionPane.showMessageDialog(this, "El campo Partido Politico no puede ser Vacio");
+                                } else {
+                                    partidoP = this.comboPartido.getSelectedItem().toString();
+                                    if (this.campoCiudad.getText().equals("")) {
+                                        JOptionPane.showMessageDialog(this, "El campo Ciudad de Origen no puede ser Vacio");
+                                    } else {
+                                        ciudad = this.campoCiudad.getText();
+                                        if (this.campoDescripcion.getText().equals("")) {
+                                            JOptionPane.showMessageDialog(this, "El campo Descripción no puede ser Vacio");
+                                        } else {
+                                            descripcion = this.campoDescripcion.getText();
+                                            if (this.campoMensajeCampania.getText().equals("")) {
+                                                JOptionPane.showMessageDialog(this, "El campo Mensaje Campaña no puede ser Vacio");
+                                            } else {
+                                                mensajeCampania = this.campoMensajeCampania.getText();
+                                                if (this.listadoPropuestas.getSelectedValuesList().equals("")) {
+                                                    JOptionPane.showMessageDialog(this, "El campo Propuestas no puede ser Vacio");
+                                                } else {
+                                                    propuestas = this.listadoPropuestas.getSelectedValuesList();
+                                                    ClsCandidato candidato = new ClsCandidato(numeroDocumento, tipoDocumento, nombre, telefono, correo, partidoP, ciudad, descripcion, mensajeCampania, propuestas);
+                                                    respuesta = this.controladorCandidato.agregarCandidato(candidato);
+                                                    if (respuesta == true) {
+                                                        JOptionPane.showMessageDialog(null, "Votante Ingresado Correctamente a la BD");
+                                                        this.comboTipoDocumento.setSelectedIndex(0);
+                                                        this.campoNumeroDocumento.setText("");
+                                                        this.campoNombre.setText("");
+                                                        this.campoTelefono.setText("");
+                                                        this.campoCorreo.setText("");
+                                                        this.comboPartido.setSelectedIndex(0);
+                                                        this.campoCiudad.setText("");
+                                                        this.campoDescripcion.setText("");
+                                                        this.campoMensajeCampania.setText("");
+                                                        this.listadoPropuestas.setSelectedIndex(0);
+                                                    } else {
+                                                        JOptionPane.showMessageDialog(null, "El Votante no pudo ser agregado a la BD");
+                                                    }
 
-        this.comboTipoDocumento.setSelectedIndex(0);
-        this.campoNumeroDocumento.setText("");
-        this.campoNombre.setText("");
-        this.campoTelefono.setText("");
-        this.campoCorreo.setText("");
-        this.comboPartido.setSelectedIndex(0);
-        this.campoCiudad.setText("");
-        this.campoDescripcion.setText("");
-        this.campoMensajeCampania.setText("");
-        this.listadoPropuestas.setSelectedIndex(0);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                System.out.println("El email ingresado es inválido.");
+                                JOptionPane.showMessageDialog(this, "El correo ingresado no cumple con el formato solicitado: ejemplo@ejemplo.com");
+                            }
 
-        
+                        }
+                    }
+                }
+            }
+        }
+
 
     }//GEN-LAST:event_botonAgregarActionPerformed
 
@@ -407,7 +479,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTabbedPane2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane2MousePressed
-       ClsCandidato candidato = new ClsCandidato();
+        ClsCandidato candidato = new ClsCandidato();
         String listado = this.controladorCandidato.consultarCandidato(candidato);
         areaResultados.setText(listado);
     }//GEN-LAST:event_jTabbedPane2MousePressed
