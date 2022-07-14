@@ -7,7 +7,6 @@ package Controladores;
 
 import Clases.ClsVotante;
 import Modelos.MdlVotante;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,8 +31,8 @@ public boolean agregarVotante(ClsVotante votante){
 
 public String consultarVotante(ClsVotante votante){
         
-        String respuesta = this.modeloVotante.consultarVotante(votante);
-        return respuesta;
+        String respuestaString = this.modeloVotante.consultarVotante(votante);
+        return respuestaString;
     }
     
 }
