@@ -7,6 +7,7 @@ package Controladores;
 
 import Clases.ClsCandidato;
 import Modelos.MdlCandidato;
+import java.util.LinkedList;
 import javax.swing.JOptionPane;
 
 /**
@@ -33,6 +34,10 @@ public class CtlCandidato {
         
         String respuesta = this.modeloCandidato.consultarCandidato(candidato);
         return respuesta;
+    }
+    
+    public LinkedList<ClsCandidato> ObtenerCandidatos(){
+        return this.modeloCandidato.ObtenerCandidatos();
     }
     
 }

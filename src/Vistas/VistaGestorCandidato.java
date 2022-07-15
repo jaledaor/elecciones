@@ -7,11 +7,13 @@ package Vistas;
 
 import Clases.ClsCandidato;
 import Controladores.CtlCandidato;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -59,7 +61,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         botonVolver = new javax.swing.JButton();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
+        tabTabla = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -83,10 +85,14 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         comboPartido = new javax.swing.JComboBox<>();
         comboTipoDocumento = new javax.swing.JComboBox<>();
         botonAgregar = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tablaCandidatos = new javax.swing.JTable();
+        refrescarTabla = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         areaResultados = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        botonRefrescar = new javax.swing.JButton();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -105,9 +111,9 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
             }
         });
 
-        jTabbedPane2.addMouseListener(new java.awt.event.MouseAdapter() {
+        tabTabla.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                jTabbedPane2MousePressed(evt);
+                tabTablaMousePressed(evt);
             }
         });
 
@@ -202,13 +208,13 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                             .addComponent(jLabel9)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(56, 56, 56)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoTelefono)
-                            .addComponent(campoCorreo)
-                            .addComponent(comboPartido, 0, 195, Short.MAX_VALUE)
-                            .addComponent(campoCiudad)
-                            .addComponent(campoDescripcion)
-                            .addComponent(campoMensajeCampania)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboPartido, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoMensajeCampania, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -221,7 +227,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                             .addComponent(campoNumeroDocumento, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(28, 28, 28)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 64, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -258,35 +264,91 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                     .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(comboPartido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(botonAgregar)))
+                        .addComponent(jLabel6)
+                        .addComponent(comboPartido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(botonAgregar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(campoCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(campoDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(6, 6, 6)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(campoMensajeCampania, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(205, 205, 205))
+                .addGap(208, 208, 208))
         );
 
-        jTabbedPane2.addTab("Formulario", jPanel2);
+        tabTabla.addTab("Formulario", jPanel2);
+
+        tablaCandidatos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id Candidato", "Nombre", "Telefono", "Correo", "Partido Politico", "Mensaje Campaña", "Propuestas"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tablaCandidatos);
+
+        refrescarTabla.setText("Refrescar");
+        refrescarTabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refrescarTablaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(304, 304, 304)
+                .addComponent(refrescarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
+                .addComponent(refrescarTabla)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tabTabla.addTab("Tabla Candidatos", jPanel4);
 
         areaResultados.setColumns(20);
         areaResultados.setRows(5);
         jScrollPane2.setViewportView(areaResultados);
 
-        jButton1.setText("Refrescar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botonRefrescar.setText("Refrescar");
+        botonRefrescar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botonRefrescarActionPerformed(evt);
             }
         });
 
@@ -298,37 +360,37 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(292, 292, 292)
-                        .addComponent(jButton1))
+                        .addComponent(botonRefrescar))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(33, 33, 33)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(35, 35, 35))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addGap(22, 22, 22)
+                .addComponent(botonRefrescar)
                 .addContainerGap())
         );
 
-        jTabbedPane2.addTab("Listado Candidatos", jPanel3);
+        tabTabla.addTab("Listado Candidatos", jPanel3);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(298, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addGap(220, 220, 220)
+                .addGap(254, 254, 254)
                 .addComponent(botonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(tabTabla)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -338,9 +400,9 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonVolver))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(tabTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -472,21 +534,42 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_campoNumeroDocumentoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void botonRefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRefrescarActionPerformed
         ClsCandidato candidato = new ClsCandidato();
         String listado = this.controladorCandidato.consultarCandidato(candidato);
         areaResultados.setText(listado);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        this.ObtenerCandidatos();
+    }//GEN-LAST:event_botonRefrescarActionPerformed
 
-    private void jTabbedPane2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane2MousePressed
+    private void tabTablaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabTablaMousePressed
         ClsCandidato candidato = new ClsCandidato();
         String listado = this.controladorCandidato.consultarCandidato(candidato);
         areaResultados.setText(listado);
-    }//GEN-LAST:event_jTabbedPane2MousePressed
+        this.ObtenerCandidatos();
+        
+    }//GEN-LAST:event_tabTablaMousePressed
 
+    public void ObtenerCandidatos(){
+        LinkedList<ClsCandidato> listaCandidatos = this.controladorCandidato.ObtenerCandidatos();
+        this.ActualizarTabla(listaCandidatos);
+    }
+    
+    public void ActualizarTabla(LinkedList<ClsCandidato> candidatos){
+        DefaultTableModel modelo= (DefaultTableModel) this.tablaCandidatos.getModel();
+        modelo.setRowCount(0);
+        
+        for(ClsCandidato c: candidatos){
+            Object[] fila = {c.getNumeroDocumento(),c.getNombre(),c.getTelefono(), c.getCorreo(), c.getPartidoPolitico(), c.getMensajeCampania(), c.getPropuestas()};
+            modelo.addRow(fila);
+        }
+    }   
     private void campoMensajeCampaniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoMensajeCampaniaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoMensajeCampaniaActionPerformed
+
+    private void refrescarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refrescarTablaActionPerformed
+        this.ObtenerCandidatos();
+    }//GEN-LAST:event_refrescarTablaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -526,6 +609,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaResultados;
     private javax.swing.JButton botonAgregar;
+    private javax.swing.JButton botonRefrescar;
     private javax.swing.JButton botonVolver;
     private javax.swing.JTextField campoCiudad;
     private javax.swing.JTextField campoCorreo;
@@ -536,7 +620,6 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     private javax.swing.JTextField campoTelefono;
     private javax.swing.JComboBox<String> comboPartido;
     private javax.swing.JComboBox<String> comboTipoDocumento;
-    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -552,9 +635,13 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JList<String> listadoPropuestas;
+    private javax.swing.JButton refrescarTabla;
+    private javax.swing.JTabbedPane tabTabla;
+    private javax.swing.JTable tablaCandidatos;
     // End of variables declaration//GEN-END:variables
 }

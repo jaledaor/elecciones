@@ -8,6 +8,8 @@ package Modelos;
 import java.sql.*;
 import java.sql.ResultSet;
 import Clases.ClsVotante;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import javax.swing.JOptionPane;
 
 /**
@@ -96,6 +98,33 @@ public class MdlVotante extends Conexion {
             } catch (SQLException e) {
                 System.err.println(e);
             }
+        }
+
+    }
+    
+    public LinkedList<ClsVotante> ObtenerVotantes() {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = Conexion();
+        String sql = "select * from bd_elecciones.tbl_votantes";
+        LinkedList<ClsVotante> Lista = new LinkedList<>();
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String tipo_documento = rs.getString("tipo_documento");
+                String id_votante = rs.getString("id_votante");
+                String nombre = rs.getString("nombre");
+                String telefono = rs.getString("telefono");
+                String correo = rs.getString("correo");
+                ClsVotante votante = new ClsVotante(id_votante, tipo_documento, nombre, telefono, correo);
+                Lista.add(votante);
+
+            }
+            return Lista;
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
         }
 
     }

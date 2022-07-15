@@ -7,6 +7,7 @@ package Controladores;
 
 import Clases.ClsVotante;
 import Modelos.MdlVotante;
+import java.util.LinkedList;
 
 /**
  *
@@ -34,5 +35,10 @@ public String consultarVotante(ClsVotante votante){
         String respuestaString = this.modeloVotante.consultarVotante(votante);
         return respuestaString;
     }
+
+public LinkedList<ClsVotante> Obtenervotantes(){
+        return this.modeloVotante.ObtenerVotantes();
+    }
+
     
 }
