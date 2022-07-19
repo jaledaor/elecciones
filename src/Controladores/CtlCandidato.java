@@ -6,6 +6,7 @@
 package Controladores;
 
 import Clases.ClsCandidato;
+import Clases.ClsMensajes;
 import Modelos.MdlCandidato;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
@@ -38,6 +39,11 @@ public class CtlCandidato {
     
     public LinkedList<ClsCandidato> ObtenerCandidatos(){
         return this.modeloCandidato.ObtenerCandidatos();
+    }
+    
+    public ClsMensajes eliminarCandidato(String id){
+        ClsMensajes mensaje =this.modeloCandidato.eliminarCandidato(id);
+        return mensaje;        
     }
     
 }

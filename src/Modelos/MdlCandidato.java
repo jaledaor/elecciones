@@ -6,6 +6,7 @@
 package Modelos;
 
 import Clases.ClsCandidato;
+import Clases.ClsMensajes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -148,6 +149,38 @@ public class MdlCandidato extends Conexion {
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        }
+
+    }
+    
+    public ClsMensajes eliminarCandidato(String id) {
+        ClsMensajes mensaje;
+        PreparedStatement ps = null;
+        Connection con = Conexion();
+
+        String sql = "delete from bd_elecciones.tbl_candidatos where id_candidato=?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, id);
+            int resultado =ps.executeUpdate();
+            
+            if (resultado>=1){
+            mensaje = new ClsMensajes(ClsMensajes.OK,"has Eliminado un candidato correctamente");
+            return mensaje;
+            }
+            
+            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Eliminar el candidato seleccionado");
+            return mensaje;
+        } catch (Exception e) {
+            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Eliminar el candidato seleccionado");
+            return mensaje;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
         }
 
     }
