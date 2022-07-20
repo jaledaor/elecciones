@@ -22,12 +22,13 @@ import javax.swing.JOptionPane;
  * @author hueck
  */
 public class MdlCandidato extends Conexion {
-
+    ClsMensajes mensaje;
     public MdlCandidato() {
         Connection con = Conexion();
     }
-
-    public boolean agregarCandidato(ClsCandidato candidato) {
+    
+    
+    public ClsMensajes agregarCandidato(ClsCandidato candidato) {
 
         PreparedStatement ps = null;
         Connection con = Conexion();
@@ -46,18 +47,22 @@ public class MdlCandidato extends Conexion {
             ps.setString(8, candidato.getDescripcion());
             ps.setString(9, candidato.getMensajeCampania());
             ps.setString(10, candidato.getPropuestas().toString());
-            ps.execute();
-            return true;
+            int resultado =ps.executeUpdate();
+            if (resultado>=1){
+            mensaje = new ClsMensajes(ClsMensajes.OK,"Se ha Adicionado un Candidato Correctamente");
+            return mensaje;
+            }
+            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Insertar un candidato");
+            return mensaje;
         } catch (Exception e) {
             System.err.println(e);
-            JOptionPane.showMessageDialog(null, "Entre al catch:" + e);
-            return false;
+            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Insertar un candidato");
+            return mensaje;
         } finally {
             try {
                 con.close();
             } catch (SQLException e) {
                 System.err.println(e);
-                JOptionPane.showMessageDialog(null, "Entre al catch2:" + e);
             }
         }
 
@@ -154,7 +159,7 @@ public class MdlCandidato extends Conexion {
     }
     
     public ClsMensajes eliminarCandidato(String id) {
-        ClsMensajes mensaje;
+        
         PreparedStatement ps = null;
         Connection con = Conexion();
 
@@ -174,6 +179,46 @@ public class MdlCandidato extends Conexion {
             return mensaje;
         } catch (Exception e) {
             mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Eliminar el candidato seleccionado");
+            return mensaje;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+
+    }
+    
+    public ClsMensajes actualizarCandidato(ClsCandidato candidato) {
+
+        PreparedStatement ps = null;
+        Connection con = Conexion();
+
+        String sql = "update bd_elecciones.tbl_candidatos set tipo_documento=?, nombre=?, telefono=?, correo=?, partido_politico=?,ciudad_origen=?,descripcion=?,mensaje_campania=?,propuestas=? where id_candidato=?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            
+            ps.setString(1, candidato.getTipoDocumento());
+            ps.setString(2, candidato.getNombre());
+            ps.setString(3, candidato.getTelefono());
+            ps.setString(4, candidato.getCorreo());
+            ps.setString(5, candidato.getPartidoPolitico());
+            ps.setString(6, candidato.getCiudadOrigen());
+            ps.setString(7, candidato.getDescripcion());
+            ps.setString(8, candidato.getMensajeCampania());
+            ps.setString(9, candidato.getPropuestas().toString());
+            ps.setString(10, candidato.getNumeroDocumento());
+            int resultado =ps.executeUpdate();
+            if (resultado>=1){
+            mensaje = new ClsMensajes(ClsMensajes.OK,"Has actualizado el candidato "+candidato.getNumeroDocumento() +" correctamente");
+            return mensaje;
+            }
+            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Actualizar el candidato seleccionado");
+            return mensaje;
+        } catch (Exception e) {
+            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Actualizar el candidato seleccionado");
             return mensaje;
         } finally {
             try {

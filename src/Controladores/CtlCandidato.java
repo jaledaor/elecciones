@@ -24,11 +24,11 @@ public class CtlCandidato {
         this.modeloCandidato = modeloCandidato;   
     }
     
-    public boolean agregarCandidato(ClsCandidato candidato){
+    public ClsMensajes agregarCandidato(ClsCandidato candidato){
         
         //JOptionPane.showMessageDialog(null, candidato.toString());
-        boolean respuesta = this.modeloCandidato.agregarCandidato(candidato);
-        return true;
+        ClsMensajes mensaje = this.modeloCandidato.agregarCandidato(candidato);
+        return mensaje;
     }
     
     public String consultarCandidato(ClsCandidato candidato){
@@ -44,6 +44,13 @@ public class CtlCandidato {
     public ClsMensajes eliminarCandidato(String id){
         ClsMensajes mensaje =this.modeloCandidato.eliminarCandidato(id);
         return mensaje;        
+    }
+    
+     public ClsMensajes actualizarCandidato(ClsCandidato candidato){
+        
+        //JOptionPane.showMessageDialog(null, candidato.toString());
+        ClsMensajes mensaje = this.modeloCandidato.actualizarCandidato(candidato);
+        return mensaje; 
     }
     
 }

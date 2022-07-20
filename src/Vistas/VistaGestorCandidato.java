@@ -37,6 +37,8 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     String mensajeCampania;
     List propuestas;
     String id;
+    int fila;
+    LinkedList<ClsCandidato> listaCandidatos;
     // Patrón para validar el email
     Pattern patron = Pattern
             .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -49,6 +51,8 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         initComponents();
         this.menuPrincipal = menuPrincipal;
         this.controladorCandidato = new CtlCandidato();
+        this.botonActualizar.setVisible(false);
+        this.botonNuevo.setVisible(false);
     }
 
     /**
@@ -64,7 +68,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         botonVolver = new javax.swing.JButton();
-        tabTabla = new javax.swing.JTabbedPane();
+        panelPestanias = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -89,17 +93,14 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         campoDescripcion = new javax.swing.JTextArea();
         jScrollPane5 = new javax.swing.JScrollPane();
         campoMensajeCampania = new javax.swing.JTextArea();
-        botonConsultar = new javax.swing.JButton();
+        botonActualizar = new javax.swing.JButton();
         comboCiudad = new javax.swing.JComboBox<>();
+        botonNuevo = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaCandidatos = new javax.swing.JTable();
-        refrescarTabla = new javax.swing.JButton();
-        botoneliminar = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        areaResultados = new javax.swing.JTextArea();
-        botonRefrescar = new javax.swing.JButton();
+        botonEditar = new javax.swing.JButton();
+        botonEliminar = new javax.swing.JButton();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -118,9 +119,9 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
             }
         });
 
-        tabTabla.addMouseListener(new java.awt.event.MouseAdapter() {
+        panelPestanias.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                tabTablaMousePressed(evt);
+                panelPestaniasMousePressed(evt);
             }
         });
 
@@ -201,10 +202,10 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         campoMensajeCampania.setRows(5);
         jScrollPane5.setViewportView(campoMensajeCampania);
 
-        botonConsultar.setText("Consultar");
-        botonConsultar.addActionListener(new java.awt.event.ActionListener() {
+        botonActualizar.setText("Actualizar");
+        botonActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonConsultarActionPerformed(evt);
+                botonActualizarActionPerformed(evt);
             }
         });
 
@@ -213,6 +214,13 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         comboCiudad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboCiudadActionPerformed(evt);
+            }
+        });
+
+        botonNuevo.setText("Nuevo");
+        botonNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonNuevoActionPerformed(evt);
             }
         });
 
@@ -253,15 +261,20 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                             .addComponent(comboTipoDocumento, javax.swing.GroupLayout.Alignment.LEADING, 0, 195, Short.MAX_VALUE)
                             .addComponent(campoNombre, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(campoNumeroDocumento, javax.swing.GroupLayout.Alignment.LEADING))))
-                .addGap(18, 40, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(botonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                        .addComponent(botonConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(21, 21, 21))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(botonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(botonActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(21, 21, 21))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(botonNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(84, 84, 84))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,7 +302,9 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(botonAgregar)
-                            .addComponent(botonConsultar))
+                            .addComponent(botonActualizar))
+                        .addGap(18, 18, 18)
+                        .addComponent(botonNuevo)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -320,7 +335,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                         .addGap(183, 183, 183))))
         );
 
-        tabTabla.addTab("Formulario", jPanel2);
+        panelPestanias.addTab("Formulario", jPanel2);
 
         tablaCandidatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -347,17 +362,17 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(tablaCandidatos);
 
-        refrescarTabla.setText("Refrescar");
-        refrescarTabla.addActionListener(new java.awt.event.ActionListener() {
+        botonEditar.setText("Editar");
+        botonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refrescarTablaActionPerformed(evt);
+                botonEditarActionPerformed(evt);
             }
         });
 
-        botoneliminar.setText("Eliminar");
-        botoneliminar.addActionListener(new java.awt.event.ActionListener() {
+        botonEliminar.setText("Eliminar");
+        botonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botoneliminarActionPerformed(evt);
+                botonEliminarActionPerformed(evt);
             }
         });
 
@@ -370,9 +385,9 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(refrescarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(botonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botoneliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(botonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -382,49 +397,12 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(refrescarTabla)
-                    .addComponent(botoneliminar))
+                    .addComponent(botonEditar)
+                    .addComponent(botonEliminar))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
 
-        tabTabla.addTab("Tabla Candidatos", jPanel4);
-
-        areaResultados.setColumns(20);
-        areaResultados.setRows(5);
-        jScrollPane2.setViewportView(areaResultados);
-
-        botonRefrescar.setText("Refrescar");
-        botonRefrescar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonRefrescarActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(292, 292, 292)
-                        .addComponent(botonRefrescar))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
-                .addComponent(botonRefrescar)
-                .addContainerGap())
-        );
-
-        tabTabla.addTab("Listado Candidatos", jPanel3);
+        panelPestanias.addTab("Tabla Candidatos", jPanel4);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -438,7 +416,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                 .addGap(19, 19, 19))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tabTabla)
+                .addComponent(panelPestanias)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -449,7 +427,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonVolver))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tabTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(panelPestanias, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -477,6 +455,158 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         this.menuPrincipal.setVisible(true);
 
     }//GEN-LAST:event_botonVolverActionPerformed
+
+    private void panelPestaniasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPestaniasMousePressed
+        ClsCandidato candidato = new ClsCandidato();
+        this.ObtenerCandidatos();
+    }//GEN-LAST:event_panelPestaniasMousePressed
+
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+        int columna = 0;
+        fila = this.tablaCandidatos.getSelectedRow();
+
+        System.err.println(fila);
+
+        if (fila >= 0) {
+            String id = this.tablaCandidatos.getValueAt(fila, columna).toString();
+            mensaje = this.controladorCandidato.eliminarCandidato(id);
+            if (mensaje.getTipo().equals(ClsMensajes.OK)) {
+                ObtenerCandidatos();
+                mensaje.mostrarMensajeOk();
+            }
+            mensaje = new ClsMensajes(ClsMensajes.ERROR, "No se Pudo realizar la eliminación");
+            mensaje.mostrarMensajeError();
+        } else {
+            mensaje = new ClsMensajes(ClsMensajes.ERROR, "El id a eliminar no puede ser vacio y debe seleccionar alguna fila");
+            mensaje.mostrarMensajeError();
+        }
+    }//GEN-LAST:event_botonEliminarActionPerformed
+
+    private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
+        this.panelPestanias.setSelectedIndex(0);
+        this.botonActualizar.setVisible(true);
+        this.botonNuevo.setVisible(true);
+        int columna = 0;
+        fila = this.tablaCandidatos.getSelectedRow();
+
+        if (fila >= 0) {
+            id = this.tablaCandidatos.getValueAt(fila, columna).toString();
+
+            ClsCandidato candidato = this.buscarCandidato(id);
+
+            if (candidato != null) {
+                this.campoNumeroDocumento.setEnabled(false);
+                this.botonAgregar.setEnabled(false);
+                this.comboTipoDocumento.setSelectedItem(candidato.getTipoDocumento());
+                this.campoNumeroDocumento.setText(candidato.getNumeroDocumento());
+                this.campoNombre.setText(candidato.getNombre());
+                this.campoCorreo.setText(candidato.getCorreo());
+                this.campoTelefono.setText(candidato.getTelefono());
+                this.comboPartido.setSelectedItem(candidato.getPartidoPolitico());
+                this.comboCiudad.setSelectedItem(candidato.getCiudadOrigen());
+                this.campoDescripcion.setText(candidato.getDescripcion());
+                this.campoMensajeCampania.setText(candidato.getDescripcion());
+                this.listadoPropuestas.setSelectedValue(candidato.getPropuestas(), true);
+            }
+        } else {
+            mensaje = new ClsMensajes(ClsMensajes.ERROR, "Para Actualizar no puede estar vacia la tabla o debe seleccionar al menos un registro");
+            mensaje.mostrarMensajeError();
+            this.botonActualizar.setVisible(false);
+            this.botonNuevo.setVisible(false);
+            this.botonAgregar.setEnabled(true);
+            this.campoNumeroDocumento.setEnabled(true);
+        }
+
+    }//GEN-LAST:event_botonEditarActionPerformed
+
+    public ClsCandidato buscarCandidato(String idCandidato) {
+
+        for (ClsCandidato c : this.listaCandidatos) {
+            if (idCandidato.equals(c.getNumeroDocumento())) {
+                return c;
+            }
+        }
+        return null;
+    }
+    private void comboCiudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCiudadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboCiudadActionPerformed
+
+    private void botonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarActionPerformed
+        if (this.comboTipoDocumento.getSelectedItem().toString().equals("")) {
+            JOptionPane.showMessageDialog(this, "El campo Tipo de Documento no puede ser Vacio");
+        } else {
+            tipoDocumento = this.comboTipoDocumento.getSelectedItem().toString();
+            if (this.campoNumeroDocumento.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "El campo Numero de Documento no puede ser Vacio");
+            } else {
+                numeroDocumento = this.campoNumeroDocumento.getText();
+                if (this.campoNombre.getText().equals("")) {
+                    JOptionPane.showMessageDialog(this, "El campo Nombre no puede ser Vacio");
+                } else {
+                    nombre = this.campoNombre.getText();
+                    if (this.campoTelefono.getText().equals("")) {
+                        JOptionPane.showMessageDialog(this, "El campo Telefono no puede ser Vacio");
+                    } else {
+                        telefono = this.campoTelefono.getText();
+                        if (this.campoCorreo.getText().equals("")) {
+                            JOptionPane.showMessageDialog(this, "El campo Correo no puede ser Vacio");
+                        } else {
+                            correo = this.campoCorreo.getText();
+                            Matcher mather = patron.matcher(correo);
+                            if (mather.find() == true) {
+                                System.out.println("El email ingresado es válido.");
+                                if (this.comboPartido.getSelectedItem().toString().equals("")) {
+                                    JOptionPane.showMessageDialog(this, "El campo Partido Politico no puede ser Vacio");
+                                } else {
+                                    partidoP = this.comboPartido.getSelectedItem().toString();
+                                    if (this.comboCiudad.getSelectedItem().toString().equals("")) {
+                                        JOptionPane.showMessageDialog(this, "El campo Ciudad de Origen no puede ser Vacio");
+                                    } else {
+                                        ciudad = this.comboCiudad.getSelectedItem().toString();
+                                        if (this.campoDescripcion.getText().equals("")) {
+                                            JOptionPane.showMessageDialog(this, "El campo Descripción no puede ser Vacio");
+                                        } else {
+                                            descripcion = this.campoDescripcion.getText();
+                                            if (this.campoMensajeCampania.getText().equals("")) {
+                                                JOptionPane.showMessageDialog(this, "El campo Mensaje Campaña no puede ser Vacio");
+                                            } else {
+                                                mensajeCampania = this.campoMensajeCampania.getText();
+                                                if (this.listadoPropuestas.getSelectedValuesList().equals("")) {
+                                                    JOptionPane.showMessageDialog(this, "El campo Propuestas no puede ser Vacio");
+                                                } else {
+                                                    propuestas = this.listadoPropuestas.getSelectedValuesList();
+                                                    ClsCandidato candidato = new ClsCandidato(numeroDocumento, tipoDocumento, nombre, telefono, correo, partidoP, ciudad, descripcion, mensajeCampania, propuestas);
+                                                    mensaje = this.controladorCandidato.actualizarCandidato(candidato);
+                                                    if (mensaje.getTipo().equals(ClsMensajes.OK)) {
+                                                        ObtenerCandidatos();
+                                                        mensaje.mostrarMensajeOk();
+                                                        this.limpiarCampos();
+                                                    } else {
+                                                        mensaje = new ClsMensajes(ClsMensajes.ERROR, "No se Pudo realizar la Actualización");
+                                                        mensaje.mostrarMensajeError();
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                System.out.println("El email ingresado es inválido.");
+                                JOptionPane.showMessageDialog(this, "El correo ingresado no cumple con el formato solicitado: ejemplo@ejemplo.com");
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        this.botonActualizar.setVisible(false);
+        this.botonNuevo.setVisible(false);
+        this.botonAgregar.setEnabled(true);
+        this.campoNumeroDocumento.setEnabled(true);
+    }//GEN-LAST:event_botonActualizarActionPerformed
 
     private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
         List propuestas = this.listadoPropuestas.getSelectedValuesList();
@@ -525,23 +655,15 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                                                 } else {
                                                     propuestas = this.listadoPropuestas.getSelectedValuesList();
                                                     ClsCandidato candidato = new ClsCandidato(numeroDocumento, tipoDocumento, nombre, telefono, correo, partidoP, ciudad, descripcion, mensajeCampania, propuestas);
-                                                    respuesta = this.controladorCandidato.agregarCandidato(candidato);
-                                                    if (respuesta == true) {
-                                                        JOptionPane.showMessageDialog(null, "Votante Ingresado Correctamente a la BD");
-                                                        this.comboTipoDocumento.setSelectedIndex(0);
-                                                        this.campoNumeroDocumento.setText("");
-                                                        this.campoNombre.setText("");
-                                                        this.campoTelefono.setText("");
-                                                        this.campoCorreo.setText("");
-                                                        this.comboPartido.setSelectedIndex(0);
-                                                        this.comboCiudad.setSelectedIndex(0);
-                                                        this.campoDescripcion.setText("");
-                                                        this.campoMensajeCampania.setText("");
-                                                        this.listadoPropuestas.setSelectedIndex(0);
+                                                    mensaje = this.controladorCandidato.agregarCandidato(candidato);
+                                                    if (mensaje.getTipo().equals(ClsMensajes.OK)) {
+                                                        ObtenerCandidatos();
+                                                        mensaje.mostrarMensajeOk();
+                                                        this.limpiarCampos();
                                                     } else {
-                                                        JOptionPane.showMessageDialog(null, "El Votante no pudo ser agregado a la BD");
+                                                        mensaje = new ClsMensajes(ClsMensajes.ERROR, "No se Pudo realizar la eliminación");
+                                                        mensaje.mostrarMensajeError();
                                                     }
-
                                                 }
                                             }
                                         }
@@ -557,13 +679,26 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                 }
             }
         }
-
-
     }//GEN-LAST:event_botonAgregarActionPerformed
 
     private void comboPartidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPartidoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboPartidoActionPerformed
+    public void limpiarCampos() {
+        this.comboTipoDocumento.setSelectedIndex(0);
+        this.campoNumeroDocumento.setText("");
+        this.campoNombre.setText("");
+        this.campoTelefono.setText("");
+        this.campoCorreo.setText("");
+        this.comboPartido.setSelectedIndex(0);
+        this.comboCiudad.setSelectedIndex(0);
+        this.campoDescripcion.setText("");
+        this.campoMensajeCampania.setText("");
+        this.listadoPropuestas.setSelectedIndex(0);
+    }
+    private void campoCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCorreoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoCorreoActionPerformed
 
     private void campoTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoTelefonoActionPerformed
         // TODO add your handling code here:
@@ -577,23 +712,18 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_campoNumeroDocumentoActionPerformed
 
-    private void botonRefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRefrescarActionPerformed
-        ClsCandidato candidato = new ClsCandidato();
-        String listado = this.controladorCandidato.consultarCandidato(candidato);
-        areaResultados.setText(listado);
-        this.ObtenerCandidatos();
-    }//GEN-LAST:event_botonRefrescarActionPerformed
+    private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
+        this.botonAgregar.setVisible(true);
+        this.botonAgregar.setEnabled(true);
+        this.botonActualizar.setVisible(false);
+        this.botonNuevo.setVisible(false);
+        this.campoNumeroDocumento.setEnabled(true);
+        this.limpiarCampos();
 
-    private void tabTablaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabTablaMousePressed
-        ClsCandidato candidato = new ClsCandidato();
-        String listado = this.controladorCandidato.consultarCandidato(candidato);
-        areaResultados.setText(listado);
-        this.ObtenerCandidatos();
-
-    }//GEN-LAST:event_tabTablaMousePressed
+    }//GEN-LAST:event_botonNuevoActionPerformed
 
     public void ObtenerCandidatos() {
-        LinkedList<ClsCandidato> listaCandidatos = this.controladorCandidato.ObtenerCandidatos();
+        this.listaCandidatos = this.controladorCandidato.ObtenerCandidatos();
         this.ActualizarTabla(listaCandidatos);
     }
 
@@ -606,43 +736,6 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
             modelo.addRow(fila);
         }
     }
-    private void refrescarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refrescarTablaActionPerformed
-        this.ObtenerCandidatos();
-    }//GEN-LAST:event_refrescarTablaActionPerformed
-
-    private void botoneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoneliminarActionPerformed
-        int columna = 0;
-        int fila = this.tablaCandidatos.getSelectedRow();
-        
-
-        System.err.println(fila);
-
-        if (fila >= 0) {
-            String id=this.tablaCandidatos.getValueAt(fila, columna).toString();
-            mensaje = this.controladorCandidato.eliminarCandidato(id);
-            if (mensaje.getTipo().equals(ClsMensajes.OK)) {
-                ObtenerCandidatos();
-                mensaje.mostrarMensajeOk();
-            }
-        } else {
-            mensaje2 = new ClsMensajes(ClsMensajes.ERROR, "El id a eliminar no puede ser vacio y debe seleccionar alguna fila");
-            mensaje2.mostrarMensajeError();
-        }
-
-
-    }//GEN-LAST:event_botoneliminarActionPerformed
-
-    private void campoCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCorreoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoCorreoActionPerformed
-
-    private void botonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botonConsultarActionPerformed
-
-    private void comboCiudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCiudadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboCiudadActionPerformed
 
     /**
      * @param args the command line arguments
@@ -680,12 +773,12 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea areaResultados;
+    private javax.swing.JButton botonActualizar;
     private javax.swing.JButton botonAgregar;
-    private javax.swing.JButton botonConsultar;
-    private javax.swing.JButton botonRefrescar;
+    private javax.swing.JButton botonEditar;
+    private javax.swing.JButton botonEliminar;
+    private javax.swing.JButton botonNuevo;
     private javax.swing.JButton botonVolver;
-    private javax.swing.JButton botoneliminar;
     private javax.swing.JTextField campoCorreo;
     private javax.swing.JTextArea campoDescripcion;
     private javax.swing.JTextArea campoMensajeCampania;
@@ -709,16 +802,13 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JList<String> listadoPropuestas;
-    private javax.swing.JButton refrescarTabla;
-    private javax.swing.JTabbedPane tabTabla;
+    private javax.swing.JTabbedPane panelPestanias;
     private javax.swing.JTable tablaCandidatos;
     // End of variables declaration//GEN-END:variables
 }
