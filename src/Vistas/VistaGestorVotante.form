@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -55,7 +55,7 @@
                           <EmptySpace min="-2" pref="265" max="-2" attributes="0"/>
                           <Component id="botonVolver" min="-2" pref="73" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jTabbedPane1" alignment="1" max="32767" attributes="0"/>
+                      <Component id="panelPestanias" alignment="1" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -70,7 +70,7 @@
                       <Component id="botonVolver" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTabbedPane1" max="32767" attributes="0"/>
+                  <Component id="panelPestanias" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -87,10 +87,10 @@
             <Property name="text" type="java.lang.String" value="Registro Votantes"/>
           </Properties>
         </Component>
-        <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+        <Container class="javax.swing.JTabbedPane" name="panelPestanias">
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTabbedPane1MouseClicked"/>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTabbedPane1MousePressed"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panelPestaniasMouseClicked"/>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panelPestaniasMousePressed"/>
           </Events>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
@@ -111,10 +111,6 @@
                           <EmptySpace pref="203" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="botonAgregar" min="-2" pref="73" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="303" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="jLabel2" alignment="0" max="32767" attributes="0"/>
@@ -123,6 +119,7 @@
                                       </Group>
                                       <Component id="jLabel6" min="-2" pref="116" max="-2" attributes="0"/>
                                       <Component id="jLabel11" min="-2" pref="116" max="-2" attributes="0"/>
+                                      <Component id="botonAgregar" min="-2" pref="73" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -133,8 +130,13 @@
                                           <Component id="comboTipoDocumento" alignment="0" max="32767" attributes="0"/>
                                           <Component id="campoTelefono" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
                                       </Group>
+                                      <Component id="botonActualizar" alignment="1" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="195" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="botonNuevo" min="-2" pref="73" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="329" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -171,9 +173,14 @@
                               <Component id="campoCorreo" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="118" max="32767" attributes="0"/>
-                          <Component id="botonAgregar" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="botonAgregar" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="botonActualizar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="botonNuevo" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="84" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -249,6 +256,22 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAgregarActionPerformed"/>
                   </Events>
                 </Component>
+                <Component class="javax.swing.JButton" name="botonActualizar">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Actualizar"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonActualizarActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="botonNuevo">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Nuevo"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonNuevoActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="jPanel4">
@@ -268,7 +291,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jScrollPane2" pref="715" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="botonRefrescarTabla" min="-2" pref="91" max="-2" attributes="0"/>
+                                  <Component id="botonEditar" min="-2" pref="91" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="botonEliminar" min="-2" pref="73" max="-2" attributes="0"/>
                               </Group>
@@ -284,7 +307,7 @@
                           <Component id="jScrollPane2" min="-2" pref="284" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="botonRefrescarTabla" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="botonEditar" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="botonEliminar" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="30" max="32767" attributes="0"/>
@@ -347,79 +370,20 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JButton" name="botonRefrescarTabla">
+                <Component class="javax.swing.JButton" name="botonEditar">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Refrescar"/>
+                    <Property name="text" type="java.lang.String" value="Editar"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonRefrescarTablaActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonEditarActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="botonEliminar">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Eliminar"/>
                   </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Container class="javax.swing.JPanel" name="jPanel3">
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="Listado Votantes">
-                    <Property name="tabTitle" type="java.lang.String" value="Listado Votantes"/>
-                  </JTabbedPaneConstraints>
-                </Constraint>
-              </Constraints>
-
-              <Layout>
-                <DimensionLayout dim="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="298" max="-2" attributes="0"/>
-                          <Component id="botonRefrescar" min="-2" pref="88" max="-2" attributes="0"/>
-                          <EmptySpace pref="349" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-                <DimensionLayout dim="1">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="280" max="32767" attributes="0"/>
-                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                          <Component id="botonRefrescar" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-              </Layout>
-              <SubComponents>
-                <Container class="javax.swing.JScrollPane" name="jScrollPane1">
-                  <AuxValues>
-                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-                  </AuxValues>
-
-                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                  <SubComponents>
-                    <Component class="javax.swing.JTextArea" name="areaResultados">
-                      <Properties>
-                        <Property name="columns" type="int" value="20"/>
-                        <Property name="rows" type="int" value="5"/>
-                      </Properties>
-                    </Component>
-                  </SubComponents>
-                </Container>
-                <Component class="javax.swing.JButton" name="botonRefrescar">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Refrescar"/>
-                  </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonRefrescarActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonEliminarActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>

@@ -31,11 +31,6 @@ public class CtlCandidato {
         return mensaje;
     }
     
-    public String consultarCandidato(ClsCandidato candidato){
-        
-        String respuesta = this.modeloCandidato.consultarCandidato(candidato);
-        return respuesta;
-    }
     
     public LinkedList<ClsCandidato> ObtenerCandidatos(){
         return this.modeloCandidato.ObtenerCandidatos();

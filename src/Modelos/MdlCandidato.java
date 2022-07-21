@@ -11,11 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
-import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -46,7 +43,6 @@ public class MdlCandidato extends Conexion {
             ps.setString(7, candidato.getCiudadOrigen());
             ps.setString(8, candidato.getDescripcion());
             ps.setString(9, candidato.getMensajeCampania());
-            ps.setString(10, candidato.getPropuestas().toString());
             int resultado =ps.executeUpdate();
             if (resultado>=1){
             mensaje = new ClsMensajes(ClsMensajes.OK,"Se ha Adicionado un Candidato Correctamente");
@@ -56,66 +52,8 @@ public class MdlCandidato extends Conexion {
             return mensaje;
         } catch (Exception e) {
             System.err.println(e);
-            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Insertar un candidato");
+            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Insertar un candidato "+e);
             return mensaje;
-        } finally {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                System.err.println(e);
-            }
-        }
-
-    }
-
-    public String consultarCandidato(ClsCandidato candidato) {
-
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Connection con = Conexion();
-        String listado = "";
-
-        String sql = "select * from bd_elecciones.tbl_candidatos";
-
-        try {
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            while (rs.next()) {
-                /*votante.setTipoDocumento(rs.getString("tipo_documento"));
-                votante.setNumeroDocumento(rs.getString("id_votante"));
-                votante.setNombre(rs.getString("nombre"));
-                votante.setTelefono(rs.getString("telefono"));
-                votante.setCorreo(rs.getString("correo"));*/
-                listado += "Tipo Documento: ";
-                listado += rs.getString("tipo_documento");
-                listado += " Id Candidato: ";
-                listado += rs.getString("id_candidato");
-                listado += " Nombre: ";
-                listado += rs.getString("nombre");
-                listado += " Telefono: ";
-                listado += rs.getString("telefono");
-                listado += " Email: ";
-                listado += rs.getString("correo");
-                listado += " Partido Politico: ";
-                listado += rs.getString("partido_politico");
-                listado += " Ciudad Origen: ";
-                listado += rs.getString("ciudad_origen");
-                listado += " Ciudad Origen: ";
-                listado += rs.getString("ciudad_origen");
-                listado += " Descripción: ";
-                listado += rs.getString("descripcion");
-                listado += " mensaje Campaña: ";
-                listado += rs.getString("mensaje_campania");
-                listado += " Propuestas: ";
-                listado += rs.getString("propuestas");
-                listado += "\n";
-            }
-            return listado;
-
-        } catch (SQLException e) {
-            System.err.println(e);
-            return listado;
         } finally {
             try {
                 con.close();
@@ -145,8 +83,7 @@ public class MdlCandidato extends Conexion {
                 String ciudad_origen = rs.getString("ciudad_origen");
                 String descripcion = rs.getString("descripcion");
                 String mensaje_campania = rs.getString("mensaje_campania");
-                ArrayList<String> propuestas = new ArrayList<>(Arrays.asList(rs.getString("propuestas")));
-                ClsCandidato candidato = new ClsCandidato(id_candidato, tipo_documento, nombre, telefono, correo, partido_politico, ciudad_origen, descripcion, mensaje_campania, propuestas);
+                ClsCandidato candidato = new ClsCandidato(id_candidato, tipo_documento, nombre, telefono, correo, partido_politico, ciudad_origen, descripcion, mensaje_campania);
                 Lista.add(candidato);
 
             }
@@ -178,7 +115,7 @@ public class MdlCandidato extends Conexion {
             mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Eliminar el candidato seleccionado");
             return mensaje;
         } catch (Exception e) {
-            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Eliminar el candidato seleccionado");
+            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Eliminar el candidato seleccionado "+e);
             return mensaje;
         } finally {
             try {
@@ -195,7 +132,7 @@ public class MdlCandidato extends Conexion {
         PreparedStatement ps = null;
         Connection con = Conexion();
 
-        String sql = "update bd_elecciones.tbl_candidatos set tipo_documento=?, nombre=?, telefono=?, correo=?, partido_politico=?,ciudad_origen=?,descripcion=?,mensaje_campania=?,propuestas=? where id_candidato=?";
+        String sql = "update bd_elecciones.tbl_candidatos set tipo_documento=?, nombre=?, telefono=?, correo=?, partido_politico=?,ciudad_origen=?,descripcion=?,mensaje_campania=? where id_candidato=?";
 
         try {
             ps = con.prepareStatement(sql);
@@ -208,8 +145,7 @@ public class MdlCandidato extends Conexion {
             ps.setString(6, candidato.getCiudadOrigen());
             ps.setString(7, candidato.getDescripcion());
             ps.setString(8, candidato.getMensajeCampania());
-            ps.setString(9, candidato.getPropuestas().toString());
-            ps.setString(10, candidato.getNumeroDocumento());
+            ps.setString(9, candidato.getNumeroDocumento());
             int resultado =ps.executeUpdate();
             if (resultado>=1){
             mensaje = new ClsMensajes(ClsMensajes.OK,"Has actualizado el candidato "+candidato.getNumeroDocumento() +" correctamente");
@@ -218,7 +154,7 @@ public class MdlCandidato extends Conexion {
             mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Actualizar el candidato seleccionado");
             return mensaje;
         } catch (Exception e) {
-            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Actualizar el candidato seleccionado");
+            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Actualizar el candidato seleccionado "+e);
             return mensaje;
         } finally {
             try {

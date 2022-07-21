@@ -24,18 +24,17 @@ public class ClsCandidato extends ClsPersona{
     
     
 
-    public ClsCandidato(String numeroDocumento, String tipoDocumento, String nombre,String telefono, String correo,String partidoPolitico, String ciudadOrigen, String descripcion, String mensajeCampania, List propuestas) {
+    public ClsCandidato(String numeroDocumento, String tipoDocumento, String nombre,String telefono, String correo,String partidoPolitico, String ciudadOrigen, String descripcion, String mensajeCampania) {
         super(tipoDocumento, numeroDocumento, nombre, telefono, correo);
         this.partidoPolitico = partidoPolitico;
         this.ciudadOrigen = ciudadOrigen;
         this.descripcion = descripcion;
         this.mensajeCampania = mensajeCampania;
-        this.propuestas = propuestas;
     }  
 
     @Override
     public String toString() {
-        return "ClsCandidato{" + "partidoPolitico=" + partidoPolitico + ", ciudadOrigen=" + ciudadOrigen + ", descripcion=" + descripcion + ", mensajeCampania=" + mensajeCampania + ", propuestas=" + propuestas + '}';
+        return "ClsCandidato{" + "partidoPolitico=" + partidoPolitico + ", ciudadOrigen=" + ciudadOrigen + ", descripcion=" + descripcion + ", mensajeCampania=" + mensajeCampania +'}';
     }
         
     
@@ -71,13 +70,6 @@ public class ClsCandidato extends ClsPersona{
         this.mensajeCampania = mensajeCampania;
     }
 
-    public List getPropuestas() {
-        return propuestas;
-    }
-
-    public void setPropuestas(List propuestas) {
-        this.propuestas = propuestas;
-    }
 
     @Override
     public void setCorreo(String correo) {

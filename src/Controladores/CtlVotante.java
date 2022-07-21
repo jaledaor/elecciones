@@ -5,6 +5,7 @@
  */
 package Controladores;
 
+import Clases.ClsMensajes;
 import Clases.ClsVotante;
 import Modelos.MdlVotante;
 import java.util.LinkedList;
@@ -24,20 +25,25 @@ public class CtlVotante {
     
     
     
-public boolean agregarVotante(ClsVotante votante){    
+public ClsMensajes agregarVotante(ClsVotante votante){    
         
-        respuesta = this.modeloVotante.agregarVotante(votante);
-        return respuesta;
-    }
-
-public String consultarVotante(ClsVotante votante){
-        
-        String respuestaString = this.modeloVotante.consultarVotante(votante);
-        return respuestaString;
+        ClsMensajes mensaje = this.modeloVotante.agregarVotante(votante);
+        return mensaje;
     }
 
 public LinkedList<ClsVotante> Obtenervotantes(){
         return this.modeloVotante.ObtenerVotantes();
+    }
+
+public ClsMensajes eliminarVotante(String id){
+        ClsMensajes mensaje =this.modeloVotante.eliminarVotante(id);
+        return mensaje;        
+    }
+    
+     public ClsMensajes actualizarVotante(ClsVotante votante){
+        //JOptionPane.showMessageDialog(null, candidato.toString());
+        ClsMensajes mensaje = this.modeloVotante.actualizarVotante(votante);
+        return mensaje; 
     }
 
     
