@@ -62,23 +62,25 @@ public class MdlEleccion extends Conexion{
         
     }
     
-    public LinkedList<ClsVotante> ObtenerVotantes() {
+    public LinkedList<ClsEleccion> ObtenerElecciones() {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection con = Conexion();
-        String sql = "select * from bd_elecciones.tbl_votantes";
-        LinkedList<ClsVotante> Lista = new LinkedList<>();
+        String sql = "select * from bd_elecciones.tbl_elecciones";
+        LinkedList<ClsEleccion> Lista = new LinkedList<>();
         try {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                String tipo_documento = rs.getString("tipo_documento");
-                String id_votante = rs.getString("id_votante");
-                String nombre = rs.getString("nombre");
-                String telefono = rs.getString("telefono");
-                String correo = rs.getString("correo");
-                ClsVotante votante = new ClsVotante(tipo_documento,id_votante,nombre, telefono, correo);
-                Lista.add(votante);
+                String idEleccion = rs.getString("id_eleccion");
+                String descripcion = rs.getString("descripcion");
+                String categoria = rs.getString("categoria");
+                String estado = rs.getString("estado");
+                String fechaInicio = rs.getString("fecha_inicio");
+                String fechaFin = rs.getString("fecha_fin");
+                String ganador = "";
+                ClsEleccion eleccion = new ClsEleccion(idEleccion,descripcion, categoria, estado, ganador, fechaInicio, fechaFin);
+                Lista.add(eleccion);
 
             }
             return Lista;
@@ -89,30 +91,30 @@ public class MdlEleccion extends Conexion{
 
     }
     
-    public ClsMensajes actualizarVotante(ClsVotante votante) {
+    public ClsMensajes actualizarEleccion(ClsEleccion eleccion) {
 
         PreparedStatement ps = null;
         Connection con = Conexion();
 
-        String sql = "update bd_elecciones.tbl_votantes set tipo_documento=?, nombre=?, telefono=?, correo=? where id_votante=?";
+        String sql = "update bd_elecciones.tbl_elecciones set descripcion=?, categoria=?, estado=?,fecha_inicio=?, fecha_fin=?, fecha_insert=NOW() where id_eleccion=?";
 
         try {
             ps = con.prepareStatement(sql);
             
-            ps.setString(1, votante.getTipoDocumento());
-            ps.setString(2, votante.getNombre());
-            ps.setString(3, votante.getTelefono());
-            ps.setString(4, votante.getCorreo());
-            ps.setString(5, votante.getNumeroDocumento());
+            ps.setString(1, eleccion.getDescripcion());
+            ps.setString(2, eleccion.getCategoria());
+            ps.setString(3, eleccion.getEstado());
+            ps.setString(4, eleccion.getFechaInicio());
+            ps.setString(5, eleccion.getFechaFin());
             int resultado =ps.executeUpdate();
             if (resultado>=1){
-            mensaje = new ClsMensajes(ClsMensajes.OK,"Has actualizado el votante "+votante.getNumeroDocumento() +" correctamente");
+            mensaje = new ClsMensajes(ClsMensajes.OK,"Has actualizado la elección con id "+eleccion.getIdEleccion() +" correctamente");
             return mensaje;
             }
-            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Actualizar el votante seleccionado");
+            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Actualizar la elección seleccionada");
             return mensaje;
         } catch (Exception e) {
-            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Actualizar el votante seleccionado "+e);
+            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Actualizar la elección seleccionada "+e);
             return mensaje;
         } finally {
             try {
@@ -124,7 +126,7 @@ public class MdlEleccion extends Conexion{
 
     }
     
-    public ClsMensajes eliminarVotante(String id) {
+    public ClsMensajes eliminarEleccion(String id) {
         
         PreparedStatement ps = null;
         Connection con = Conexion();

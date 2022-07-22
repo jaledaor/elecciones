@@ -15,36 +15,33 @@ import java.util.LinkedList;
  * @author hueck
  */
 public class CtlVotante {
-    
+
     MdlVotante modeloVotante = new MdlVotante();
     boolean respuesta;
 
     public CtlVotante() {
         this.modeloVotante = modeloVotante;
     }
-    
-    
-    
-public ClsMensajes agregarVotante(ClsVotante votante){    
-        
+
+    public ClsMensajes agregarVotante(ClsVotante votante) {
+
         ClsMensajes mensaje = this.modeloVotante.agregarVotante(votante);
         return mensaje;
     }
 
-public LinkedList<ClsVotante> Obtenervotantes(){
+    public LinkedList<ClsVotante> ObtenerVotantes() {
         return this.modeloVotante.ObtenerVotantes();
     }
 
-public ClsMensajes eliminarVotante(String id){
-        ClsMensajes mensaje =this.modeloVotante.eliminarVotante(id);
-        return mensaje;        
-    }
-    
-     public ClsMensajes actualizarVotante(ClsVotante votante){
-        //JOptionPane.showMessageDialog(null, candidato.toString());
-        ClsMensajes mensaje = this.modeloVotante.actualizarVotante(votante);
-        return mensaje; 
+    public ClsMensajes eliminarVotante(String id) {
+        ClsMensajes mensaje = this.modeloVotante.eliminarVotante(id);
+        return mensaje;
     }
 
-    
+    public ClsMensajes actualizarVotante(ClsVotante votante) {
+        //JOptionPane.showMessageDialog(null, candidato.toString());
+        ClsMensajes mensaje = this.modeloVotante.actualizarVotante(votante);
+        return mensaje;
+    }
+
 }

@@ -556,7 +556,7 @@ public class VistaGestorVotante extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonEliminarActionPerformed
     public void ObtenerVotantes() {
-        this.listaVotantes = this.controladorVotante.Obtenervotantes();
+        this.listaVotantes = this.controladorVotante.ObtenerVotantes();
         this.ActualizarTabla(listaVotantes);
     }
 

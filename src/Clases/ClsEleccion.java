@@ -14,17 +14,21 @@ public class ClsEleccion {
     private String idEleccion;
     private String descripcion;
     private String categoria;
+    private String estado;
+    private String ganador;
     private String fechaInicio;
     private String fechaFin;
 
-    public ClsEleccion(String idEleccion, String descripcion, String categoria, String fechaInicio, String fechaFin) {
+    public ClsEleccion(String idEleccion, String descripcion, String categoria, String estado, String ganador, String fechaInicio, String fechaFin) {
         this.idEleccion = idEleccion;
         this.descripcion = descripcion;
         this.categoria = categoria;
+        this.estado = estado;
+        this.ganador = ganador;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
     }
-
+    
     public String getIdEleccion() {
         return idEleccion;
     }
@@ -48,7 +52,8 @@ public class ClsEleccion {
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
-
+    
+    
     public String getFechaInicio() {
         return fechaInicio;
     }
@@ -63,6 +68,22 @@ public class ClsEleccion {
 
     public void setFechaFin(String fechaFin) {
         this.fechaFin = fechaFin;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getGanador() {
+        return ganador;
+    }
+
+    public void setGanador(String ganador) {
+        this.ganador = ganador;
     }
 
     
