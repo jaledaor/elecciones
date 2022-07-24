@@ -449,7 +449,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         System.err.println(fila);
 
         if (fila >= 0) {
-            String id = this.tablaCandidatos.getValueAt(fila, columna).toString();
+            id = this.tablaCandidatos.getValueAt(fila, columna).toString();
             mensaje = this.controladorCandidato.eliminarCandidato(id);
             if (mensaje.getTipo().equals(ClsMensajes.OK)) {
                 ObtenerCandidatos();
@@ -467,8 +467,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
         this.panelPestanias.setSelectedIndex(0);
-        this.botonActualizar.setVisible(true);
-        this.botonNuevo.setVisible(true);
+        
         int columna = 0;
         fila = this.tablaCandidatos.getSelectedRow();
 
@@ -478,6 +477,8 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
             ClsCandidato candidato = this.buscarCandidato(id);
 
             if (candidato != null) {
+                this.botonActualizar.setVisible(true);
+                this.botonNuevo.setVisible(true);
                 this.campoNumeroDocumento.setEnabled(false);
                 this.botonAgregar.setEnabled(false);
                 this.comboTipoDocumento.setSelectedItem(candidato.getTipoDocumento());

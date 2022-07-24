@@ -5,6 +5,8 @@
  */
 package Modelos;
 
+import Clases.ClsCandidato;
+import Clases.ClsCandidatoEleccion;
 import Clases.ClsEleccion;
 import Clases.ClsMensajes;
 import java.sql.Connection;
@@ -13,23 +15,24 @@ import java.sql.ResultSet;
 import Clases.ClsVotante;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author hueck
  */
-public class MdlEleccion extends Conexion{
+public class MdlEleccion extends Conexion {
+
     ClsMensajes mensaje;
-    
+
     public MdlEleccion() {
         Connection con = Conexion();
     }
- 
+
     public ClsMensajes agregarEleccion(ClsEleccion eleccion) {
-        
-        
+
         PreparedStatement ps = null;
         Connection con = Conexion();
-        
+
         String sql = "Insert into bd_elecciones.tbl_elecciones (id_eleccion, descripcion, categoria, estado, fecha_inicio, fecha_fin, fecha_insert) values (?,?,?,?,?,?,NOW())";
 
         try {
@@ -40,16 +43,16 @@ public class MdlEleccion extends Conexion{
             ps.setString(4, "Abierta");
             ps.setString(5, eleccion.getFechaInicio());
             ps.setString(6, eleccion.getFechaFin());
-            int resultado =ps.executeUpdate();
-            if (resultado>=1){
-            mensaje = new ClsMensajes(ClsMensajes.OK,"Se ha Adicionado una eleccion Correctamente");
-            return mensaje;
+            int resultado = ps.executeUpdate();
+            if (resultado >= 1) {
+                mensaje = new ClsMensajes(ClsMensajes.OK, "Se ha Adicionado una eleccion Correctamente");
+                return mensaje;
             }
-            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Insertar una elección");
+            mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Insertar una elección");
             return mensaje;
         } catch (Exception e) {
             System.err.println(e);
-            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Insertar una elección "+e);
+            mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Insertar una elección " + e);
             return mensaje;
         } finally {
             try {
@@ -59,9 +62,9 @@ public class MdlEleccion extends Conexion{
                 JOptionPane.showMessageDialog(null, "Entre al catch2:" + e);
             }
         }
-        
+
     }
-    
+
     public LinkedList<ClsEleccion> ObtenerElecciones() {
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -79,7 +82,7 @@ public class MdlEleccion extends Conexion{
                 String fechaInicio = rs.getString("fecha_inicio");
                 String fechaFin = rs.getString("fecha_fin");
                 String ganador = "";
-                ClsEleccion eleccion = new ClsEleccion(idEleccion,descripcion, categoria, estado, ganador, fechaInicio, fechaFin);
+                ClsEleccion eleccion = new ClsEleccion(idEleccion, descripcion, categoria, estado, ganador, fechaInicio, fechaFin);
                 Lista.add(eleccion);
 
             }
@@ -90,31 +93,55 @@ public class MdlEleccion extends Conexion{
         }
 
     }
-    
+
+    public LinkedList<ClsCandidatoEleccion> ObtenerCandidatosElecciones() {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = Conexion();
+        String sql = "select * from bd_elecciones.tbl_candidato_por_eleccion";
+        LinkedList<ClsCandidatoEleccion> Lista = new LinkedList<>();
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String idEleccion = rs.getString("id_eleccion");
+                String idCandidato = rs.getString("id_candidato");
+                ClsCandidatoEleccion candidatoEleccion = new ClsCandidatoEleccion(idEleccion, idCandidato);
+                Lista.add(candidatoEleccion);
+
+            }
+            return Lista;
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        }
+
+    }
+
     public ClsMensajes actualizarEleccion(ClsEleccion eleccion) {
 
         PreparedStatement ps = null;
         Connection con = Conexion();
 
-        String sql = "update bd_elecciones.tbl_elecciones set descripcion=?, categoria=?, estado=?,fecha_inicio=?, fecha_fin=?, fecha_insert=NOW() where id_eleccion=?";
+        String sql = "Insert into bd_elecciones.tbl_candidato_por_eleccion (id_eleccion, descripcion, categoria, estado, fecha_inicio, fecha_fin, fecha_insert) values (?,?,?,?,?,?,NOW())";
 
         try {
             ps = con.prepareStatement(sql);
-            
+
             ps.setString(1, eleccion.getDescripcion());
             ps.setString(2, eleccion.getCategoria());
             ps.setString(3, eleccion.getEstado());
             ps.setString(4, eleccion.getFechaInicio());
             ps.setString(5, eleccion.getFechaFin());
-            int resultado =ps.executeUpdate();
-            if (resultado>=1){
-            mensaje = new ClsMensajes(ClsMensajes.OK,"Has actualizado la elección con id "+eleccion.getIdEleccion() +" correctamente");
-            return mensaje;
+            int resultado = ps.executeUpdate();
+            if (resultado >= 1) {
+                mensaje = new ClsMensajes(ClsMensajes.OK, "Has actualizado la elección con id " + eleccion.getIdEleccion() + " correctamente");
+                return mensaje;
             }
-            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Actualizar la elección seleccionada");
+            mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Actualizar la elección seleccionada");
             return mensaje;
         } catch (Exception e) {
-            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Actualizar la elección seleccionada "+e);
+            mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Actualizar la elección seleccionada " + e);
             return mensaje;
         } finally {
             try {
@@ -125,28 +152,28 @@ public class MdlEleccion extends Conexion{
         }
 
     }
-    
+
     public ClsMensajes eliminarEleccion(String id) {
-        
+
         PreparedStatement ps = null;
         Connection con = Conexion();
 
-        String sql = "delete from bd_elecciones.tbl_votantes where id_votante=?";
+        String sql = "delete from bd_elecciones.tbl_elecciones where id_eleccion=?";
 
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, id);
-            int resultado =ps.executeUpdate();
-            
-            if (resultado>=1){
-            mensaje = new ClsMensajes(ClsMensajes.OK,"has Eliminado un votante correctamente");
-            return mensaje;
+            int resultado = ps.executeUpdate();
+
+            if (resultado >= 1) {
+                mensaje = new ClsMensajes(ClsMensajes.OK, "has Eliminado una elección correctamente");
+                return mensaje;
+            } else {
+                mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Eliminar la elección seleccionada");
+                return mensaje;
             }
-            
-            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Eliminar el votante seleccionado");
-            return mensaje;
         } catch (Exception e) {
-            mensaje = new ClsMensajes(ClsMensajes.ERROR,"Ha ocurrido un error al intentar Eliminar el votante seleccionado "+e);
+            mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Eliminar la elección seleccionada " + e);
             return mensaje;
         } finally {
             try {
@@ -157,5 +184,71 @@ public class MdlEleccion extends Conexion{
         }
 
     }
-    
+
+    public ClsMensajes eliminarCandidatoEleccion(String idCandidato, String idEleccion) {
+
+        PreparedStatement ps = null;
+        Connection con = Conexion();
+
+        String sql = "delete from bd_elecciones.tbl_candidato_por_eleccion where id_candidato=? and id_eleccion=?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, idCandidato);
+            ps.setString(2, idEleccion);
+            int resultado = ps.executeUpdate();
+
+            if (resultado >= 1) {
+                mensaje = new ClsMensajes(ClsMensajes.OK, "has Eliminado la asociación correctamente");
+                return mensaje;
+            } else {
+
+                mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Eliminar la Asociacion seleccionada");
+                return mensaje;
+            }
+        } catch (Exception e) {
+            mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Eliminar la Asociacion seleccionada " + e);
+            return mensaje;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+
+    }
+
+    public ClsMensajes asociarCandidatoEleccion(String id_eleccion, String id_candidato) {
+
+        PreparedStatement ps = null;
+        Connection con = Conexion();
+
+        String sql = "Insert into bd_elecciones.tbl_candidato_por_eleccion (id_eleccion, id_candidato) values (?,?)";
+
+        try {
+            ps = con.prepareStatement(sql);
+
+            ps.setString(1, id_eleccion);
+            ps.setString(2, id_candidato);
+            int resultado = ps.executeUpdate();
+            if (resultado >= 1) {
+                mensaje = new ClsMensajes(ClsMensajes.OK, "Has asociado el id de eleccion: " + id_eleccion + " a el candidato con id " + id_candidato + " correctamente");
+                return mensaje;
+            }
+            mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar asociar el id de eleccion: " + id_eleccion + " a el candidato con id " + id_candidato);
+            return mensaje;
+        } catch (Exception e) {
+            mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Actualizar la elección seleccionada " + e);
+            return mensaje;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+
+    }
+
 }

@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -88,6 +89,7 @@ public class MdlCandidato extends Conexion {
 
             }
             return Lista;
+            
         } catch (SQLException e) {
             System.err.println(e);
             return null;
