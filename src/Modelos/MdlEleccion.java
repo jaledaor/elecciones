@@ -6,7 +6,7 @@
 package Modelos;
 
 import Clases.ClsCandidato;
-import Clases.ClsCandidatoEleccion;
+import Clases.ClsVoto;
 import Clases.ClsEleccion;
 import Clases.ClsMensajes;
 import java.sql.Connection;
@@ -59,7 +59,6 @@ public class MdlEleccion extends Conexion {
                 con.close();
             } catch (SQLException e) {
                 System.err.println(e);
-                JOptionPane.showMessageDialog(null, "Entre al catch2:" + e);
             }
         }
 
@@ -94,19 +93,20 @@ public class MdlEleccion extends Conexion {
 
     }
 
-    public LinkedList<ClsCandidatoEleccion> ObtenerCandidatosElecciones() {
+    public LinkedList<ClsVoto> ObtenerCandidatosElecciones(String id) {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection con = Conexion();
-        String sql = "select * from bd_elecciones.tbl_candidato_por_eleccion";
-        LinkedList<ClsCandidatoEleccion> Lista = new LinkedList<>();
+        String sql = "select * from bd_elecciones.tbl_candidato_por_eleccion where id_eleccion=?";
+        LinkedList<ClsVoto> Lista = new LinkedList<>();
         try {
             ps = con.prepareStatement(sql);
+            ps.setString(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
                 String idEleccion = rs.getString("id_eleccion");
                 String idCandidato = rs.getString("id_candidato");
-                ClsCandidatoEleccion candidatoEleccion = new ClsCandidatoEleccion(idEleccion, idCandidato);
+                ClsVoto candidatoEleccion = new ClsVoto(idEleccion, idCandidato);
                 Lista.add(candidatoEleccion);
 
             }

@@ -6,7 +6,7 @@
 package Vistas;
 
 import Clases.ClsCandidato;
-import Clases.ClsCandidatoEleccion;
+import Clases.ClsVoto;
 import Clases.ClsEleccion;
 import Clases.ClsMensajes;
 import Controladores.CtlCandidato;
@@ -32,13 +32,13 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
     ClsMensajes mensaje;
     CtlEleccion controladorEleccion;
     CtlCandidato controladorCandidato;
-    String id;
+    String idTemp;
     int fila;
-    String id_eleccion;
-    String id_candidato;
+    String idEleccion;
+    String idCandidato;
     LinkedList<ClsEleccion> listaElecciones;
     LinkedList<ClsCandidato> listaCandidatos;
-    LinkedList<ClsCandidatoEleccion> listaCandidatoEleccion;
+    LinkedList<ClsVoto> listaCandidatoEleccion;
 
     /**
      * Creates new form VistaEleccion
@@ -49,9 +49,8 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
         this.controladorEleccion = new CtlEleccion();
         this.controladorCandidato = new CtlCandidato();
         this.botonActualizar.setVisible(false);
-        ObtenerElecciones();
-        ObtenerCandidatos();
-        ObtenerCandidatosElecciones();
+        obtenerElecciones();
+        obtenerCandidatos();
     }
 
     /**
@@ -83,7 +82,7 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
         comboCandidato = new javax.swing.JComboBox<>();
         botonAsociarCandidato = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        botonVolver = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaElecciones = new javax.swing.JTable();
         botonEliminar = new javax.swing.JButton();
@@ -162,7 +161,7 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(campoFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -242,10 +241,10 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 0, 51));
         jLabel4.setText("Gestion Elecciones");
 
-        jButton1.setText("Volver");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botonVolver.setText("Volver");
+        botonVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botonVolverActionPerformed(evt);
             }
         });
 
@@ -263,6 +262,11 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tablaElecciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaEleccionesMouseClicked(evt);
             }
         });
         jScrollPane3.setViewportView(tablaElecciones);
@@ -288,7 +292,7 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setText("Candidatos");
+        jLabel7.setText("Candidatos por Elección");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -329,7 +333,7 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
                         .addGap(316, 316, 316)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(botonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -345,7 +349,7 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
                                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(botonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+                                            .addComponent(botonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
                                             .addComponent(botonEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -355,7 +359,7 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel7)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -364,7 +368,7 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jButton1))
+                    .addComponent(botonVolver))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
@@ -386,16 +390,16 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonEliminarAsociacion))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
         this.setVisible(false);
         this.menuPrincipal.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_botonVolverActionPerformed
 
     private void campoNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoNombreActionPerformed
         // TODO add your handling code here:
@@ -419,7 +423,7 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
 
         mensaje = this.controladorEleccion.agregarEleccion(eleccion);
         if (mensaje.getTipo().equals(ClsMensajes.OK)) {
-            ObtenerElecciones();
+            obtenerElecciones();
             mensaje.mostrarMensajeOk();
             this.limpiarCampos();
         } else {
@@ -434,9 +438,9 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
         int columna = 0;
         fila = this.tablaElecciones.getSelectedRow();
         if (fila >= 0) {
-            id = this.tablaElecciones.getValueAt(fila, columna).toString();
+            idTemp = this.tablaElecciones.getValueAt(fila, columna).toString();
 
-            ClsEleccion eleccion = this.buscarEleccion(id);
+            ClsEleccion eleccion = this.buscarEleccion(idTemp);
 
             if (eleccion != null) {
                 this.botonActualizar.setVisible(true);
@@ -469,10 +473,10 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
         System.err.println(fila);
 
         if (fila >= 0) {
-            id = this.tablaElecciones.getValueAt(fila, columna).toString();
-            mensaje = this.controladorEleccion.eliminarEleccion(id);
+            idTemp = this.tablaElecciones.getValueAt(fila, columna).toString();
+            mensaje = this.controladorEleccion.eliminarEleccion(idTemp);
             if (mensaje.getTipo().equals(ClsMensajes.OK)) {
-                ObtenerElecciones();
+                obtenerElecciones();
                 mensaje.mostrarMensajeOk();
             } else {
                 if (mensaje.getTipo().equals(ClsMensajes.ERROR)) {
@@ -491,26 +495,27 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
 
     private void botonAsociarCandidatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAsociarCandidatoActionPerformed
         int columna = 0;
-
+        
         fila = this.tablaElecciones.getSelectedRow();
         if (fila >= 0) {
-            id = this.tablaElecciones.getValueAt(fila, columna).toString();
+            idTemp = this.tablaElecciones.getValueAt(fila, columna).toString();
 
-            ClsEleccion eleccion = this.buscarEleccion(id);
+            ClsEleccion eleccion = this.buscarEleccion(idTemp);
 
             if (eleccion != null) {
-                this.id_eleccion = eleccion.getIdEleccion();
-                this.id_candidato = comboCandidato.getSelectedItem().toString();
+                this.idEleccion = eleccion.getIdEleccion();
+                String [] partesCombo = this.comboCandidato.getSelectedItem().toString().split("-");
+                this.idCandidato = partesCombo[1];
 
-                mensaje = this.controladorEleccion.asociarCandidatoEleccion(id_eleccion, id_candidato);
+                mensaje = this.controladorEleccion.asociarCandidatoEleccion(idEleccion, idCandidato);
                 if (mensaje.getTipo().equals(ClsMensajes.OK)) {
-                    ObtenerElecciones();
+                    obtenerElecciones();
                     mensaje.mostrarMensajeOk();
-                    ObtenerCandidatosElecciones();
+                    obtenerCandidatosElecciones(idEleccion);
                 } else {
                     if (mensaje.getTipo().equals(ClsMensajes.ERROR)) {
                         mensaje.mostrarMensajeError();
-                        ObtenerCandidatosElecciones();
+                        obtenerCandidatosElecciones(idEleccion);
                     }
                 }
             }
@@ -526,14 +531,14 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
         fila = this.tablaCandidatosElecciones.getSelectedRow();
 
         if (fila >= 0) {
-            id_candidato = this.tablaCandidatosElecciones.getValueAt(fila, columnaE).toString();
-            id_eleccion = this.tablaCandidatosElecciones.getValueAt(fila, columnaC).toString();
+            idCandidato = this.tablaCandidatosElecciones.getValueAt(fila, columnaE).toString();
+            idEleccion = this.tablaCandidatosElecciones.getValueAt(fila, columnaC).toString();
             
-            JOptionPane.showMessageDialog(null, id_eleccion +" -"+id_candidato);
+            JOptionPane.showMessageDialog(null, idEleccion +" -"+idCandidato);
             
-            mensaje = this.controladorEleccion.eliminarCandidatoEleccion(id_candidato,id_eleccion);
+            mensaje = this.controladorEleccion.eliminarCandidatoEleccion(idCandidato,idEleccion);
             if (mensaje.getTipo().equals(ClsMensajes.OK)) {
-                ObtenerCandidatosElecciones();
+                obtenerCandidatosElecciones(idEleccion);
                 mensaje.mostrarMensajeOk();
             } else {
                 if (mensaje.getTipo().equals(ClsMensajes.ERROR)) {
@@ -545,6 +550,13 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
             mensaje.mostrarMensajeError();
         }
     }//GEN-LAST:event_botonEliminarAsociacionActionPerformed
+
+    private void tablaEleccionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEleccionesMouseClicked
+        int columna = 0;
+        fila = this.tablaElecciones.getSelectedRow();
+        idTemp = this.tablaElecciones.getValueAt(fila, columna).toString();
+        this.obtenerCandidatosElecciones(idTemp);
+    }//GEN-LAST:event_tablaEleccionesMouseClicked
 
     public void limpiarCampos() {
         this.campoNombre.setText("");
@@ -558,22 +570,22 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
 
     }
 
-    public void ObtenerElecciones() {
+    public void obtenerElecciones() {
         this.listaElecciones = this.controladorEleccion.ObtenerElecciones();
-        this.ActualizarTabla(listaElecciones);
+        this.actualizarTabla(listaElecciones);
     }
 
-    public void ObtenerCandidatos() {
+    public void obtenerCandidatos() {
         this.listaCandidatos = this.controladorCandidato.ObtenerCandidatos();
-        this.LlenarComboCandidatos(listaCandidatos);
+        this.llenarComboCandidatos(listaCandidatos);
     }
     
-    public void ObtenerCandidatosElecciones() {
-        this.listaCandidatoEleccion = this.controladorEleccion.ObtenerCandidatosElecciones();
-        this.ActualizarTablaCandidatosEleccion(listaCandidatoEleccion);
+    public void obtenerCandidatosElecciones(String idEleccion) {
+        this.listaCandidatoEleccion = this.controladorEleccion.ObtenerCandidatosElecciones(idEleccion);
+        this.actualizarTablaCandidatosEleccion(listaCandidatoEleccion);
     }
 
-    public void ActualizarTabla(LinkedList<ClsEleccion> elecciones) {
+    public void actualizarTabla(LinkedList<ClsEleccion> elecciones) {
         DefaultTableModel modelo = (DefaultTableModel) this.tablaElecciones.getModel();
         modelo.setRowCount(0);
 
@@ -583,21 +595,21 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
         }
     }
     
-    public void ActualizarTablaCandidatosEleccion(LinkedList<ClsCandidatoEleccion> candidatoEleccion) {
+    public void actualizarTablaCandidatosEleccion(LinkedList<ClsVoto> candidatoEleccion) {
         DefaultTableModel modelo = (DefaultTableModel) this.tablaCandidatosElecciones.getModel();
         modelo.setRowCount(0);
 
-        for (ClsCandidatoEleccion c : candidatoEleccion) {
-            Object[] fila = {c.getId_eleccion(),c.getId_candidato() };
+        for (ClsVoto c : candidatoEleccion) {
+            Object[] fila = {c.getIdEleccion(),c.getIdCandidato()};
             modelo.addRow(fila);
         }
     }
 
-    public void LlenarComboCandidatos(LinkedList<ClsCandidato> candidato) {
+    public void llenarComboCandidatos(LinkedList<ClsCandidato> candidato) {
         DefaultComboBoxModel modelo = (DefaultComboBoxModel) this.comboCandidato.getModel();
 
         for (ClsCandidato c : candidato) {
-            comboCandidato.addItem(c.getNumeroDocumento());
+            comboCandidato.addItem(c.getNombre()+"-"+c.getNumeroDocumento());
         }
     }
 
@@ -653,13 +665,13 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
     private javax.swing.JButton botonEditar;
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonEliminarAsociacion;
+    private javax.swing.JButton botonVolver;
     private com.toedter.calendar.JDateChooser campoFechaFin;
     private com.toedter.calendar.JDateChooser campoFechaInicio;
     private javax.swing.JTextField campoNombre;
     private javax.swing.JComboBox<String> comboCandidato;
     private javax.swing.JComboBox<String> comboCategoria;
     private javax.swing.JComboBox<String> comboEstado;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

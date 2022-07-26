@@ -6,7 +6,7 @@
 package Controladores;
 
 import Clases.ClsCandidato;
-import Clases.ClsCandidatoEleccion;
+import Clases.ClsVoto;
 import Clases.ClsEleccion;
 import Clases.ClsMensajes;
 import Modelos.MdlEleccion;
@@ -50,8 +50,8 @@ public class CtlEleccion {
         return mensaje;
     }
     
-    public LinkedList<ClsCandidatoEleccion> ObtenerCandidatosElecciones() {
-        return this.modeloEleccion.ObtenerCandidatosElecciones();
+    public LinkedList<ClsVoto> ObtenerCandidatosElecciones(String idEleccion) {
+        return this.modeloEleccion.ObtenerCandidatosElecciones(idEleccion);
     }
     
      public ClsMensajes asociarCandidatoEleccion(String id_eleccion, String id_candidato) {
