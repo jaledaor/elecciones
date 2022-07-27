@@ -150,12 +150,15 @@ public class VistaMenu extends javax.swing.JFrame {
     private void botonEleccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEleccionesActionPerformed
         this.setVisible(false);
         this.vistaEleccion.setVisible(true);
+        this.vistaEleccion.obtenerCandidatos();
+        this.vistaEleccion.obtenerElecciones();
         vistaEleccion.setLocationRelativeTo(null);
     }//GEN-LAST:event_botonEleccionesActionPerformed
 
     private void botonVotarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVotarActionPerformed
         this.setVisible(false);
         this.vistaVoto.setVisible(true);
+        this.vistaVoto.obtenerVotantes();
         vistaVoto.setLocationRelativeTo(null);
     }//GEN-LAST:event_botonVotarActionPerformed
 

@@ -33,6 +33,7 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
     CtlEleccion controladorEleccion;
     CtlCandidato controladorCandidato;
     String idTemp;
+    String estadoTemp;
     int fila;
     String idEleccion;
     String idCandidato;
@@ -421,6 +422,7 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
 
     private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
         this.setVisible(false);
+        this.repaint();
         this.menuPrincipal.setVisible(true);
     }//GEN-LAST:event_botonVolverActionPerformed
 
@@ -539,29 +541,35 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
 
     private void botonAsociarCandidatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAsociarCandidatoActionPerformed
         int columna = 0;
-
+        int columnaEstado = 3;
         fila = this.tablaElecciones.getSelectedRow();
         if (fila >= 0) {
             idTemp = this.tablaElecciones.getValueAt(fila, columna).toString();
+            estadoTemp = this.tablaElecciones.getValueAt(fila, columnaEstado).toString();
 
-            ClsEleccion eleccion = this.buscarEleccion(idTemp);
+            if (estadoTemp.equals("Abierta")) {
+                ClsEleccion eleccion = this.buscarEleccion(idTemp);
 
-            if (eleccion != null) {
-                this.idEleccion = eleccion.getIdEleccion();
-                String[] partesCombo = this.comboCandidato.getSelectedItem().toString().split("-");
-                this.idCandidato = partesCombo[1];
+                if (eleccion != null) {
+                    this.idEleccion = eleccion.getIdEleccion();
+                    String[] partesCombo = this.comboCandidato.getSelectedItem().toString().split("-");
+                    this.idCandidato = partesCombo[1];
 
-                mensaje = this.controladorEleccion.asociarCandidatoEleccion(idEleccion, idCandidato);
-                if (mensaje.getTipo().equals(ClsMensajes.OK)) {
-                    obtenerElecciones();
-                    mensaje.mostrarMensajeOk();
-                    obtenerCandidatosElecciones(idEleccion);
-                } else {
-                    if (mensaje.getTipo().equals(ClsMensajes.ERROR)) {
-                        mensaje.mostrarMensajeError();
+                    mensaje = this.controladorEleccion.asociarCandidatoEleccion(idEleccion, idCandidato);
+                    if (mensaje.getTipo().equals(ClsMensajes.OK)) {
+                        obtenerElecciones();
+                        mensaje.mostrarMensajeOk();
                         obtenerCandidatosElecciones(idEleccion);
+                    } else {
+                        if (mensaje.getTipo().equals(ClsMensajes.ERROR)) {
+                            mensaje.mostrarMensajeError();
+                            obtenerCandidatosElecciones(idEleccion);
+                        }
                     }
                 }
+            } else {
+                mensaje = new ClsMensajes(ClsMensajes.ERROR, "No puedes Asociar Candidatos a una Elección Cerrada");
+                mensaje.mostrarMensajeError();
             }
         } else {
             mensaje = new ClsMensajes(ClsMensajes.ERROR, "Para Asociar un candidato a una elección, no puede estar vacia la tabla o debe seleccionar al menos un registro del combo de candidatos");
@@ -577,9 +585,9 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
         if (fila >= 0) {
             idCandidato = this.tablaCandidatosElecciones.getValueAt(fila, columnaE).toString();
             idEleccion = this.tablaCandidatosElecciones.getValueAt(fila, columnaC).toString();
-            
+
             mensaje = this.controladorEleccion.eliminarCandidatoEleccion(idCandidato, idEleccion);
-            
+
             if (mensaje.getTipo().equals(ClsMensajes.OK)) {
                 obtenerCandidatosElecciones(idEleccion);
                 mensaje.mostrarMensajeOk();
@@ -602,7 +610,7 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaEleccionesMouseClicked
 
     private void botonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarActionPerformed
-        
+
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 
         if (this.campoNombre.getText().equals("")) {
@@ -705,7 +713,7 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
 
     public void llenarComboCandidatos(LinkedList<ClsCandidato> candidato) {
         DefaultComboBoxModel modelo = (DefaultComboBoxModel) this.comboCandidato.getModel();
-
+        modelo.removeAllElements();
         for (ClsCandidato c : candidato) {
             comboCandidato.addItem(c.getNombre() + "-" + c.getNumeroDocumento());
         }

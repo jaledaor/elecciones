@@ -42,11 +42,14 @@ public class VistaGestorVoto extends javax.swing.JFrame {
         this.menuPrincipal = menuPrincipal;
         this.controladorVotacion = new CtlVoto();
         obtenerElecciones();
+        obtenerVotantes();
         obtenerVotos(this.comboElecciones.getItemAt(0));
         this.comboCandidatos.setEnabled(false);
-        this.comboVotantes.setEnabled(false);
+        this.comboVotantes.setVisible(false);
+        this.comboVotantes.setEnabled(true);
         this.botonActualizar.setEnabled(false);
         this.botonVotar.setEnabled(true);
+        this.labelVotantes.setVisible(false);
     }
 
     /**
@@ -63,7 +66,7 @@ public class VistaGestorVoto extends javax.swing.JFrame {
         comboElecciones = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         comboCandidatos = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
+        labelVotantes = new javax.swing.JLabel();
         comboVotantes = new javax.swing.JComboBox<>();
         botonVotar = new javax.swing.JButton();
         botonActualizar = new javax.swing.JButton();
@@ -138,7 +141,7 @@ public class VistaGestorVoto extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Votantes Habilitados");
+        labelVotantes.setText("Votantes Habilitados");
 
         comboVotantes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,7 +185,7 @@ public class VistaGestorVoto extends javax.swing.JFrame {
                         .addGap(113, 113, 113)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(comboVotantes, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))))
+                            .addComponent(labelVotantes))))
                 .addGap(29, 29, 29))
         );
         jPanel1Layout.setVerticalGroup(
@@ -192,7 +195,7 @@ public class VistaGestorVoto extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(labelVotantes))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboElecciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -297,17 +300,18 @@ public class VistaGestorVoto extends javax.swing.JFrame {
     private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
         this.setVisible(false);
         this.menuPrincipal.setVisible(true);
+        this.limpiarCampos();
     }//GEN-LAST:event_botonVolverActionPerformed
 
     private void comboEleccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEleccionesActionPerformed
-        String idEleccion = this.comboElecciones.getSelectedItem().toString();
+        idEleccion = this.comboElecciones.getSelectedItem().toString();
         obtenerVotos(idEleccion);
         obtenerCandidatos(idEleccion);
     }//GEN-LAST:event_comboEleccionesActionPerformed
 
     private void comboCandidatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCandidatosActionPerformed
-        obtenerVotantes();
-        this.comboVotantes.setEnabled(true);
+        this.comboVotantes.setVisible(true);
+        this.labelVotantes.setVisible(true);
         
     }//GEN-LAST:event_comboCandidatosActionPerformed
 
@@ -392,7 +396,7 @@ public class VistaGestorVoto extends javax.swing.JFrame {
                 this.comboCandidatos.setSelectedItem(voto.getIdCandidato());
                 this.comboVotantes.setSelectedItem(voto.getIdVotante());
                 this.idVoto=idTemp;
-                
+                this.comboVotantes.setEnabled(false);
             }
         } else {
             mensaje = new ClsMensajes(ClsMensajes.ERROR, "Para Actualizar no puede estar vacia la tabla o debe seleccionar al menos un registro");
@@ -509,11 +513,13 @@ public class VistaGestorVoto extends javax.swing.JFrame {
         this.comboElecciones.setEnabled(true);
         modelo1.removeAllElements();
         modelo2.removeAllElements();
-        this.comboVotantes.setEnabled(false);
         this.comboCandidatos.setEnabled(false);
         this.botonActualizar.setEnabled(false);
         this.botonVotar.setEnabled(true);
+        this.comboVotantes.setVisible(false);
+        this.comboVotantes.setEnabled(true);
         obtenerVotantes();
+        this.labelVotantes.setVisible(false);
     }
     
     public void obtenerVotos(String idEleccion) {
@@ -597,10 +603,10 @@ public class VistaGestorVoto extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboVotantes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelVotantes;
     private javax.swing.JTable tablaVotos;
     // End of variables declaration//GEN-END:variables
 }
