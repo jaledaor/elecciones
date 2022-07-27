@@ -31,7 +31,7 @@ public class MdlCandidato extends Conexion {
         PreparedStatement ps = null;
         Connection con = Conexion();
 
-        String sql = "Insert into bd_elecciones.tbl_candidatos (id_candidato, tipo_documento, nombre, telefono, correo, partido_politico,ciudad_origen,descripcion,mensaje_campania,propuestas) values (?,?,?,?,?,?,?,?,?,?)";
+        String sql = "Insert into bd_elecciones.tbl_candidatos (id_candidato, tipo_documento, nombre, telefono, correo, partido_politico,ciudad_origen,descripcion,mensaje_campania) values (?,?,?,?,?,?,?,?,?)";
 
         try {
             ps = con.prepareStatement(sql);

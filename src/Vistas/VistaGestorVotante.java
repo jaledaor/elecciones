@@ -418,7 +418,7 @@ public class VistaGestorVotante extends javax.swing.JFrame {
                                 Matcher mather = patron.matcher(correo);
                                 if (mather.find() == true) {
                                     System.out.println("El email ingresado es válido.");
-                                    ClsVotante votante = new ClsVotante(tipoDocumento,numeroDocumento , nombre, telefono, correo);
+                                    ClsVotante votante = new ClsVotante(tipoDocumento, numeroDocumento, nombre, telefono, correo);
                                     mensaje = this.controladorVotante.actualizarVotante(votante);
                                     if (mensaje.getTipo().equals(ClsMensajes.OK)) {
                                         ObtenerVotantes();
@@ -468,8 +468,8 @@ public class VistaGestorVotante extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(this, "El campo Telefono no puede ser Vacio");
                     } else {
                         telefono = this.campoTelefono.getText();
-                        if (this.campoCorreo.getText().equals("")) {
-                            JOptionPane.showMessageDialog(this, "El campo Correo no puede ser Vacio");
+                        if (this.campoTelefono.getText().equals("")) {
+                            JOptionPane.showMessageDialog(this, "El campo telefono no puede ser Vacio");
                         } else {
                             telefono = this.campoTelefono.getText();
                             Boolean match = telefono.matches(PatronTel);
@@ -487,15 +487,15 @@ public class VistaGestorVotante extends javax.swing.JFrame {
                                     } else {
                                         if (mensaje.getTipo().equals(ClsMensajes.ERROR)) {
                                             mensaje.mostrarMensajeError();
-                                        } else {
-                                            System.out.println("El email ingresado es inválido.");
-                                            JOptionPane.showMessageDialog(this, "El correo ingresado no cumple con el formato solicitado: ejemplo@ejemplo.com");
                                         }
                                     }
                                 } else {
-                                    System.out.println("El telefono ingresado es inválido.");
-                                    JOptionPane.showMessageDialog(this, "El telefono ingresado no es numerico");
+                                    System.out.println("El email ingresado es inválido.");
+                                    JOptionPane.showMessageDialog(this, "El correo ingresado no cumple con el formato solicitado: ejemplo@ejemplo.com");
                                 }
+                            } else {
+                                System.out.println("El telefono ingresado es inválido.");
+                                JOptionPane.showMessageDialog(this, "El telefono ingresado no es numerico");
                             }
                         }
                     }
@@ -537,8 +537,6 @@ public class VistaGestorVotante extends javax.swing.JFrame {
         int columna = 0;
         fila = this.tablaVotantes.getSelectedRow();
 
-        System.err.println(fila);
-
         if (fila >= 0) {
             String id = this.tablaVotantes.getValueAt(fila, columna).toString();
             mensaje = this.controladorVotante.eliminarVotante(id);
@@ -565,7 +563,7 @@ public class VistaGestorVotante extends javax.swing.JFrame {
         modelo.setRowCount(0);
 
         for (ClsVotante c : votantes) {
-            Object[] fila = {c.getNumeroDocumento(), c.getTipoDocumento(),c.getNombre(), c.getTelefono(), c.getCorreo()};
+            Object[] fila = {c.getNumeroDocumento(), c.getTipoDocumento(), c.getNombre(), c.getTelefono(), c.getCorreo()};
             modelo.addRow(fila);
         }
     }

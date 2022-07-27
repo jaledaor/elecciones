@@ -31,6 +31,15 @@ public class ClsVoto {
         this.idVotante = idVotante;
     }
 
+    public ClsVoto(String idCandidato, String idEleccion, String idVotante, String idVoto) {
+        this.idCandidato = idCandidato;
+        this.idEleccion = idEleccion;
+        this.idVotante = idVotante;
+        this.idVoto = idVoto;
+    }
+    
+    
+
     public ClsVoto(String idCandidato, String idEleccion, String idVotante, String idVoto, String fechaEleccion) {
         this.idCandidato = idCandidato;
         this.idEleccion = idEleccion;

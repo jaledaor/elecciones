@@ -39,13 +39,12 @@ public class CtlEleccion {
         return mensaje;
     }
     
-    public ClsMensajes eliminarCandidatoEleccion(String idCandidato,String idEleccion) {
+    public ClsMensajes eliminarCandidatoEleccion(String idCandidato, String idEleccion) {
         ClsMensajes mensaje = this.modeloEleccion.eliminarCandidatoEleccion(idCandidato,idEleccion);
         return mensaje;
     }
 
     public ClsMensajes actualizarEleccion(ClsEleccion eleccion) {
-        //JOptionPane.showMessageDialog(null, candidato.toString());
         ClsMensajes mensaje = this.modeloEleccion.actualizarEleccion(eleccion);
         return mensaje;
     }
@@ -55,7 +54,6 @@ public class CtlEleccion {
     }
     
      public ClsMensajes asociarCandidatoEleccion(String id_eleccion, String id_candidato) {
-        //JOptionPane.showMessageDialog(null, candidato.toString());
         ClsMensajes mensaje = this.modeloEleccion.asociarCandidatoEleccion(id_eleccion, id_candidato);
         return mensaje;
     }

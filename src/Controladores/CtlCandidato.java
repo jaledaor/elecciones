@@ -25,8 +25,6 @@ public class CtlCandidato {
     }
     
     public ClsMensajes agregarCandidato(ClsCandidato candidato){
-        
-        //JOptionPane.showMessageDialog(null, candidato.toString());
         ClsMensajes mensaje = this.modeloCandidato.agregarCandidato(candidato);
         return mensaje;
     }
@@ -42,8 +40,6 @@ public class CtlCandidato {
     }
     
      public ClsMensajes actualizarCandidato(ClsCandidato candidato){
-        
-        //JOptionPane.showMessageDialog(null, candidato.toString());
         ClsMensajes mensaje = this.modeloCandidato.actualizarCandidato(candidato);
         return mensaje; 
     }

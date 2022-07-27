@@ -27,6 +27,11 @@ public class CtlVoto {
         return mensaje;
     }
     
+    public ClsMensajes actualizarVoto(ClsVoto voto) {
+        ClsMensajes mensaje = this.modeloVotacion.actualizarVoto(voto);
+        return mensaje;
+    }
+    
     public LinkedList<ClsVoto> obtenerElecciones() {
         return this.modeloVotacion.obtenerElecciones();
     }

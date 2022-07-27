@@ -119,20 +119,15 @@ public class MdlEleccion extends Conexion {
     }
 
     public ClsMensajes actualizarEleccion(ClsEleccion eleccion) {
-
         PreparedStatement ps = null;
         Connection con = Conexion();
-
-        String sql = "Insert into bd_elecciones.tbl_candidato_por_eleccion (id_eleccion, descripcion, categoria, estado, fecha_inicio, fecha_fin, fecha_insert) values (?,?,?,?,?,?,NOW())";
-
+        String sql = "update bd_elecciones.tbl_elecciones set estado=?, fecha_inicio=?, fecha_fin=?, fecha_insert=now() where id_eleccion =?";
         try {
             ps = con.prepareStatement(sql);
-
-            ps.setString(1, eleccion.getDescripcion());
-            ps.setString(2, eleccion.getCategoria());
-            ps.setString(3, eleccion.getEstado());
-            ps.setString(4, eleccion.getFechaInicio());
-            ps.setString(5, eleccion.getFechaFin());
+            ps.setString(1, eleccion.getEstado());
+            ps.setString(2, eleccion.getFechaInicio());
+            ps.setString(3, eleccion.getFechaFin());
+            ps.setString(4, eleccion.getIdEleccion());
             int resultado = ps.executeUpdate();
             if (resultado >= 1) {
                 mensaje = new ClsMensajes(ClsMensajes.OK, "Has actualizado la elección con id " + eleccion.getIdEleccion() + " correctamente");
@@ -154,23 +149,49 @@ public class MdlEleccion extends Conexion {
     }
 
     public ClsMensajes eliminarEleccion(String id) {
-
+        int resultado;
         PreparedStatement ps = null;
         Connection con = Conexion();
-
+        String sql1 = "select id_eleccion from bd_elecciones.tbl_elecciones where id_eleccion=? and id_eleccion in (select id_eleccion from bd_elecciones.tbl_candidato_por_eleccion where id_eleccion=?)";
+        ResultSet rs = null;
         String sql = "delete from bd_elecciones.tbl_elecciones where id_eleccion=?";
-
+        LinkedList<ClsVoto> Lista = new LinkedList<>();
         try {
-            ps = con.prepareStatement(sql);
+            ps = con.prepareStatement(sql1);
             ps.setString(1, id);
-            int resultado = ps.executeUpdate();
-
-            if (resultado >= 1) {
-                mensaje = new ClsMensajes(ClsMensajes.OK, "has Eliminado una elección correctamente");
+            ps.setString(2, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String idEleccion = rs.getString("id_eleccion");
+                ClsVoto candidatoEleccion = new ClsVoto(idEleccion);
+                Lista.add(candidatoEleccion);
+            }
+            if (Lista.size() >= 1) {
+                mensaje = new ClsMensajes(ClsMensajes.ERROR, "No se puede Eliminar la elección seleccionada tiene asociado un candidato");
                 return mensaje;
             } else {
-                mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Eliminar la elección seleccionada");
-                return mensaje;
+                try {
+                    ps = con.prepareStatement(sql);
+                    ps.setString(1, id);
+                    resultado = ps.executeUpdate();
+                    if (resultado >= 1) {
+                        mensaje = new ClsMensajes(ClsMensajes.OK, "has Eliminado una elección correctamente");
+                        return mensaje;
+
+                    } else {
+                        mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Eliminar la elección seleccionada");
+                        return mensaje;
+                    }
+                } catch (Exception e) {
+                    mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Eliminar la elección seleccionada " + e);
+                    return mensaje;
+                } finally {
+                    try {
+                        con.close();
+                    } catch (SQLException e) {
+                        System.err.println(e);
+                    }
+                }
             }
         } catch (Exception e) {
             mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Eliminar la elección seleccionada " + e);
@@ -183,31 +204,31 @@ public class MdlEleccion extends Conexion {
             }
         }
 
+        /**/
     }
 
-    public ClsMensajes eliminarCandidatoEleccion(String idCandidato, String idEleccion) {
-
+    public ClsMensajes eliminarCandidatoEleccion(String idE, String idC) {
         PreparedStatement ps = null;
         Connection con = Conexion();
 
-        String sql = "delete from bd_elecciones.tbl_candidato_por_eleccion where id_candidato=? and id_eleccion=?";
+        String sql = "delete from bd_elecciones.tbl_candidato_por_eleccion where id_eleccion=? and id_candidato=?";
 
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, idCandidato);
-            ps.setString(2, idEleccion);
-            int resultado = ps.executeUpdate();
 
+            ps.setString(1, idE);
+            ps.setString(2, idC);
+            int resultado = ps.executeUpdate();
             if (resultado >= 1) {
-                mensaje = new ClsMensajes(ClsMensajes.OK, "has Eliminado la asociación correctamente");
+                mensaje = new ClsMensajes(ClsMensajes.OK, "Se Ha Eliminado la asociacion de la Elección " + idE + " y el candidato " + idC + ", correctamente");
                 return mensaje;
             } else {
-
-                mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Eliminar la Asociacion seleccionada");
+                mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar eliminar la asociacion de la Elección " + idE + " y el candidato " + idC);
                 return mensaje;
             }
+
         } catch (Exception e) {
-            mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Eliminar la Asociacion seleccionada " + e);
+            mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Actualizar la elección seleccionada " + e);
             return mensaje;
         } finally {
             try {
@@ -216,7 +237,6 @@ public class MdlEleccion extends Conexion {
                 System.err.println(e);
             }
         }
-
     }
 
     public ClsMensajes asociarCandidatoEleccion(String id_eleccion, String id_candidato) {

@@ -29,6 +29,7 @@ public class VistaGestorVoto extends javax.swing.JFrame {
     LinkedList<ClsVoto> listaVotos;
     ClsMensajes mensaje;
     int fila;
+    String idVoto;
     String idTemp;
     CtlVoto controladorVotacion;
     String idEleccion, idCandidato, idVotante;
@@ -45,6 +46,7 @@ public class VistaGestorVoto extends javax.swing.JFrame {
         this.comboCandidatos.setEnabled(false);
         this.comboVotantes.setEnabled(false);
         this.botonActualizar.setEnabled(false);
+        this.botonVotar.setEnabled(true);
     }
 
     /**
@@ -152,6 +154,11 @@ public class VistaGestorVoto extends javax.swing.JFrame {
         });
 
         botonActualizar.setText("Actualizar");
+        botonActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonActualizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -305,7 +312,7 @@ public class VistaGestorVoto extends javax.swing.JFrame {
     }//GEN-LAST:event_comboCandidatosActionPerformed
 
     private void comboVotantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboVotantesActionPerformed
-        this.botonVotar.setEnabled(true);
+        
     }//GEN-LAST:event_comboVotantesActionPerformed
 
     private void comboEleccionesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_comboEleccionesPropertyChange
@@ -338,7 +345,7 @@ public class VistaGestorVoto extends javax.swing.JFrame {
         } else {
             idEleccion = this.comboElecciones.getSelectedItem().toString();
             if (this.comboCandidatos.getSelectedItem().toString().equals("") || 
-                this.comboCandidatos.getSelectedItem().toString().equals(null)) {
+                this.comboCandidatos.getSelectedItem().toString()==null) {
                 JOptionPane.showMessageDialog(this, "El valor del candidato no puede ser vacio");
             } else {
                 idCandidato = this.comboCandidatos.getSelectedItem().toString();
@@ -371,7 +378,8 @@ public class VistaGestorVoto extends javax.swing.JFrame {
     }//GEN-LAST:event_comboEleccionesFocusGained
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
-       int columna = 0;
+        int columna = 0;
+        idVoto="";
         fila = this.tablaVotos.getSelectedRow();
         if (fila >= 0) {
             idTemp = this.tablaVotos.getValueAt(fila, columna).toString();
@@ -383,6 +391,8 @@ public class VistaGestorVoto extends javax.swing.JFrame {
                 this.comboElecciones.setSelectedItem(voto.getIdEleccion());
                 this.comboCandidatos.setSelectedItem(voto.getIdCandidato());
                 this.comboVotantes.setSelectedItem(voto.getIdVotante());
+                this.idVoto=idTemp;
+                
             }
         } else {
             mensaje = new ClsMensajes(ClsMensajes.ERROR, "Para Actualizar no puede estar vacia la tabla o debe seleccionar al menos un registro");
@@ -402,7 +412,6 @@ public class VistaGestorVoto extends javax.swing.JFrame {
         if (fila >= 0) {
             idTemp = this.tablaVotos.getValueAt(fila, columna).toString();
             mensaje = this.controladorVotacion.eliminarVoto(idTemp);
-            JOptionPane.showMessageDialog(null, idTemp);
             if (mensaje.getTipo().equals(ClsMensajes.OK)) {
                 obtenerVotos(this.comboElecciones.getItemAt(0));
                 mensaje.mostrarMensajeOk();
@@ -420,6 +429,37 @@ public class VistaGestorVoto extends javax.swing.JFrame {
             limpiarCampos();
         }
     }//GEN-LAST:event_botonEliminarActionPerformed
+
+    private void botonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarActionPerformed
+        this.botonVotar.setEnabled(false);
+        if (this.comboElecciones.getSelectedItem().toString().equals("")) {
+            JOptionPane.showMessageDialog(this, "El valor de la elección no puede ser vacio");
+        } else {
+            idEleccion = this.comboElecciones.getSelectedItem().toString();
+            if (this.comboCandidatos.getSelectedItem().toString().equals("") || 
+                this.comboCandidatos.getSelectedItem().toString()==null) {
+                JOptionPane.showMessageDialog(this, "El valor del candidato no puede ser vacio");
+            } else {
+                idCandidato = this.comboCandidatos.getSelectedItem().toString();
+                if (this.comboVotantes.getSelectedItem().toString().equals("")) {
+                    JOptionPane.showMessageDialog(this, "El valor del votante no puede ser vacio");
+                } else {
+                    idVotante = this.comboVotantes.getSelectedItem().toString();
+                    ClsVoto voto = new ClsVoto(idCandidato, idEleccion, idVotante,idVoto);
+                    mensaje = this.controladorVotacion.actualizarVoto(voto);
+                    if (mensaje.getTipo().equals(ClsMensajes.OK)) {
+                        obtenerVotos(idEleccion);
+                        mensaje.mostrarMensajeOk();
+                        this.limpiarCampos();
+                    } else {
+                        if (mensaje.getTipo().equals(ClsMensajes.ERROR)) {
+                            mensaje.mostrarMensajeError();
+                        }
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_botonActualizarActionPerformed
 
     public void obtenerElecciones() {
         this.listaElecciones = this.controladorVotacion.obtenerElecciones();
@@ -466,6 +506,7 @@ public class VistaGestorVoto extends javax.swing.JFrame {
         DefaultComboBoxModel modelo1 = (DefaultComboBoxModel) this.comboVotantes.getModel();
         DefaultComboBoxModel modelo2 = (DefaultComboBoxModel) this.comboCandidatos.getModel();
         this.comboElecciones.setSelectedIndex(0);
+        this.comboElecciones.setEnabled(true);
         modelo1.removeAllElements();
         modelo2.removeAllElements();
         this.comboVotantes.setEnabled(false);

@@ -36,6 +36,14 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
     int fila;
     String idEleccion;
     String idCandidato;
+    String nombre;
+    String categoria;
+    String estado;
+    String ganador;
+    String fechaInicio;
+    String fechaFin;
+    String[] arrayFecha;
+    Boolean vacio = false;
     LinkedList<ClsEleccion> listaElecciones;
     LinkedList<ClsCandidato> listaCandidatos;
     LinkedList<ClsVoto> listaCandidatoEleccion;
@@ -51,6 +59,11 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
         this.botonActualizar.setVisible(false);
         obtenerElecciones();
         obtenerCandidatos();
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+        Date dateObj = calendar.getTime();
+        this.campoFechaInicio.setDate(dateObj);
+        this.campoFechaFin.setDate(dateObj);
     }
 
     /**
@@ -127,6 +140,11 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
         });
 
         botonActualizar.setText("Actualizar");
+        botonActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonActualizarActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Categoria");
 
@@ -143,7 +161,6 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -151,20 +168,23 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
                         .addGap(35, 35, 35)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(31, 31, 31)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonActualizar)
-                    .addComponent(jLabel2)
-                    .addComponent(campoFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(campoFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(campoFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(botonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonActualizar)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -189,10 +209,11 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
                                 .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(campoFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botonAgregar)
-                            .addComponent(botonActualizar)))
-                    .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(botonAgregar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonActualizar)))
                 .addGap(26, 26, 26))
         );
 
@@ -355,7 +376,9 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botonEliminarAsociacion))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(botonEliminarAsociacion)
+                                .addGap(44, 44, 44)))))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -406,35 +429,57 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
     }//GEN-LAST:event_campoNombreActionPerformed
 
     private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
-        String nombre = this.campoNombre.getText();
-        String categoria = this.comboCategoria.getSelectedItem().toString();
-        String estado = this.comboEstado.getSelectedItem().toString();
-        String ganador = "";
-
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 
-        String fechaInicio = formato.format(this.campoFechaInicio.getDate());
-        String fechaFin = formato.format(this.campoFechaFin.getDate());
-
-        String[] arrayFecha = fechaInicio.split("-", 2);
-        String idEleccion = arrayFecha[0] + "-" + categoria + "-" + nombre;
-
-        ClsEleccion eleccion = new ClsEleccion(idEleccion, nombre, categoria, estado, ganador, fechaInicio, fechaFin);
-
-        mensaje = this.controladorEleccion.agregarEleccion(eleccion);
-        if (mensaje.getTipo().equals(ClsMensajes.OK)) {
-            obtenerElecciones();
-            mensaje.mostrarMensajeOk();
-            this.limpiarCampos();
+        if (this.campoNombre.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "El valor del nombre de la elección no puede ser vacio");
         } else {
-            if (mensaje.getTipo().equals(ClsMensajes.ERROR)) {
-                mensaje.mostrarMensajeError();
+            nombre = this.campoNombre.getText();
+            if (this.comboCategoria.getSelectedItem().toString().equals("")) {
+                JOptionPane.showMessageDialog(this, "El valor de la categoria no puede ser vacio");
+            } else {
+                categoria = this.comboCategoria.getSelectedItem().toString();
+                if (this.campoFechaInicio.getDate().equals("") || (this.campoFechaInicio.getDate() == null)) {
+                    JOptionPane.showMessageDialog(this, "El valor de la fecha inicial no puede ser vacio1");
+                } else {
+                    fechaInicio = formato.format(this.campoFechaInicio.getDate());
+                }
+                if (this.campoFechaFin.getDate().equals("") || (this.campoFechaFin.getDate() == null)) {
+                    JOptionPane.showMessageDialog(this, "El valor de la fecha final no puede ser vacio1");
+                } else {
+                    fechaFin = formato.format(this.campoFechaFin.getDate());
+                    if (fechaInicio.compareTo(fechaFin) > 0) {
+                        JOptionPane.showMessageDialog(this, "El valor de la fecha final no puede ser menos a la fecha Inicial");
+                    } else {
+                        fechaFin = formato.format(this.campoFechaFin.getDate());
+                        if (this.comboEstado.getSelectedItem().toString().equals("")) {
+                            JOptionPane.showMessageDialog(this, "El valor de la categoria no puede ser vacio");
+                        } else {
+
+                            estado = this.comboEstado.getSelectedItem().toString();
+                            arrayFecha = fechaInicio.split("-", 2);
+                            idEleccion = arrayFecha[0] + "-" + categoria + "-" + nombre;
+                            ganador = "";
+                            ClsEleccion eleccion = new ClsEleccion(idEleccion, nombre, categoria, estado, ganador, fechaInicio, fechaFin);
+
+                            mensaje = this.controladorEleccion.agregarEleccion(eleccion);
+                            if (mensaje.getTipo().equals(ClsMensajes.OK)) {
+                                obtenerElecciones();
+                                mensaje.mostrarMensajeOk();
+                                this.limpiarCampos();
+                            } else {
+                                if (mensaje.getTipo().equals(ClsMensajes.ERROR)) {
+                                    mensaje.mostrarMensajeError();
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }//GEN-LAST:event_botonAgregarActionPerformed
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
-
         int columna = 0;
         fila = this.tablaElecciones.getSelectedRow();
         if (fila >= 0) {
@@ -444,8 +489,10 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
 
             if (eleccion != null) {
                 this.botonActualizar.setVisible(true);
+                this.botonActualizar.setEnabled(true);
                 this.campoNombre.setEnabled(false);
                 this.botonAgregar.setEnabled(false);
+                this.comboCategoria.setEnabled(false);
                 this.campoNombre.setText(eleccion.getIdEleccion());
                 this.comboCategoria.setSelectedItem(eleccion.getCategoria());
                 this.comboEstado.setSelectedItem(eleccion.getEstado());
@@ -469,9 +516,6 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
         int columna = 0;
         fila = this.tablaElecciones.getSelectedRow();
-
-        System.err.println(fila);
-
         if (fila >= 0) {
             idTemp = this.tablaElecciones.getValueAt(fila, columna).toString();
             mensaje = this.controladorEleccion.eliminarEleccion(idTemp);
@@ -495,7 +539,7 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
 
     private void botonAsociarCandidatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAsociarCandidatoActionPerformed
         int columna = 0;
-        
+
         fila = this.tablaElecciones.getSelectedRow();
         if (fila >= 0) {
             idTemp = this.tablaElecciones.getValueAt(fila, columna).toString();
@@ -504,7 +548,7 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
 
             if (eleccion != null) {
                 this.idEleccion = eleccion.getIdEleccion();
-                String [] partesCombo = this.comboCandidato.getSelectedItem().toString().split("-");
+                String[] partesCombo = this.comboCandidato.getSelectedItem().toString().split("-");
                 this.idCandidato = partesCombo[1];
 
                 mensaje = this.controladorEleccion.asociarCandidatoEleccion(idEleccion, idCandidato);
@@ -526,17 +570,16 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
     }//GEN-LAST:event_botonAsociarCandidatoActionPerformed
 
     private void botonEliminarAsociacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarAsociacionActionPerformed
-        int columnaE = 0;
         int columnaC = 1;
+        int columnaE = 0;
         fila = this.tablaCandidatosElecciones.getSelectedRow();
 
         if (fila >= 0) {
             idCandidato = this.tablaCandidatosElecciones.getValueAt(fila, columnaE).toString();
             idEleccion = this.tablaCandidatosElecciones.getValueAt(fila, columnaC).toString();
             
-            JOptionPane.showMessageDialog(null, idEleccion +" -"+idCandidato);
+            mensaje = this.controladorEleccion.eliminarCandidatoEleccion(idCandidato, idEleccion);
             
-            mensaje = this.controladorEleccion.eliminarCandidatoEleccion(idCandidato,idEleccion);
             if (mensaje.getTipo().equals(ClsMensajes.OK)) {
                 obtenerCandidatosElecciones(idEleccion);
                 mensaje.mostrarMensajeOk();
@@ -558,10 +601,65 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
         this.obtenerCandidatosElecciones(idTemp);
     }//GEN-LAST:event_tablaEleccionesMouseClicked
 
+    private void botonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarActionPerformed
+        
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+
+        if (this.campoNombre.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "El valor de la descripción de la elección no puede ser vacio");
+        } else {
+            nombre = this.campoNombre.getText();
+            if (this.comboCategoria.getSelectedItem().toString().equals("")) {
+                JOptionPane.showMessageDialog(this, "El valor de la categoria no puede ser vacio");
+            } else {
+                categoria = this.comboCategoria.getSelectedItem().toString();
+                if (this.campoFechaInicio.getDate().equals("") || (this.campoFechaInicio.getDate() == null)) {
+                    JOptionPane.showMessageDialog(this, "El valor de la fecha inicial no puede ser vacio");
+                } else {
+                    fechaInicio = formato.format(this.campoFechaInicio.getDate());
+                }
+                if (this.campoFechaFin.getDate().equals("") || (this.campoFechaFin.getDate() == null)) {
+                    JOptionPane.showMessageDialog(this, "El valor de la fecha final no puede ser vacio");
+                } else {
+                    fechaFin = formato.format(this.campoFechaFin.getDate());
+                    if (fechaInicio.compareTo(fechaFin) > 0) {
+                        JOptionPane.showMessageDialog(this, "El valor de la fecha final no puede ser menos a la fecha Inicial");
+                    } else {
+                        fechaFin = formato.format(this.campoFechaFin.getDate());
+                        if (this.comboEstado.getSelectedItem().toString().equals("")) {
+                            JOptionPane.showMessageDialog(this, "El valor de la categoria no puede ser vacio");
+                        } else {
+                            estado = this.comboEstado.getSelectedItem().toString();
+                            arrayFecha = fechaInicio.split("-", 2);
+                            idEleccion = nombre;
+                            ganador = "";
+                            ClsEleccion eleccion = new ClsEleccion(idEleccion, nombre, categoria, estado, ganador, fechaInicio, fechaFin);
+
+                            mensaje = this.controladorEleccion.actualizarEleccion(eleccion);
+                            if (mensaje.getTipo().equals(ClsMensajes.OK)) {
+                                obtenerElecciones();
+                                mensaje.mostrarMensajeOk();
+                                this.limpiarCampos();
+                            } else {
+                                if (mensaje.getTipo().equals(ClsMensajes.ERROR)) {
+                                    mensaje.mostrarMensajeError();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_botonActualizarActionPerformed
+
     public void limpiarCampos() {
         this.campoNombre.setText("");
+        this.campoNombre.setEnabled(true);
+        this.botonActualizar.setEnabled(false);
+        this.botonAgregar.setEnabled(true);
         this.comboEstado.setSelectedIndex(0);
         this.comboCategoria.setSelectedIndex(0);
+        this.comboCategoria.setEnabled(true);
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
         Date dateObj = calendar.getTime();
@@ -579,7 +677,7 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
         this.listaCandidatos = this.controladorCandidato.ObtenerCandidatos();
         this.llenarComboCandidatos(listaCandidatos);
     }
-    
+
     public void obtenerCandidatosElecciones(String idEleccion) {
         this.listaCandidatoEleccion = this.controladorEleccion.ObtenerCandidatosElecciones(idEleccion);
         this.actualizarTablaCandidatosEleccion(listaCandidatoEleccion);
@@ -594,13 +692,13 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
             modelo.addRow(fila);
         }
     }
-    
+
     public void actualizarTablaCandidatosEleccion(LinkedList<ClsVoto> candidatoEleccion) {
         DefaultTableModel modelo = (DefaultTableModel) this.tablaCandidatosElecciones.getModel();
         modelo.setRowCount(0);
 
         for (ClsVoto c : candidatoEleccion) {
-            Object[] fila = {c.getIdEleccion(),c.getIdCandidato()};
+            Object[] fila = {c.getIdEleccion(), c.getIdCandidato()};
             modelo.addRow(fila);
         }
     }
@@ -609,7 +707,7 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
         DefaultComboBoxModel modelo = (DefaultComboBoxModel) this.comboCandidato.getModel();
 
         for (ClsCandidato c : candidato) {
-            comboCandidato.addItem(c.getNombre()+"-"+c.getNumeroDocumento());
+            comboCandidato.addItem(c.getNombre() + "-" + c.getNumeroDocumento());
         }
     }
 
@@ -636,16 +734,24 @@ public class VistaGestorEleccion extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaGestorEleccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaGestorEleccion.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaGestorEleccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaGestorEleccion.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaGestorEleccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaGestorEleccion.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaGestorEleccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaGestorEleccion.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>

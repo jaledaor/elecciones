@@ -39,7 +39,6 @@ public class CtlVotante {
     }
 
     public ClsMensajes actualizarVotante(ClsVotante votante) {
-        //JOptionPane.showMessageDialog(null, candidato.toString());
         ClsMensajes mensaje = this.modeloVotante.actualizarVotante(votante);
         return mensaje;
     }

@@ -489,7 +489,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                 this.comboPartido.setSelectedItem(candidato.getPartidoPolitico());
                 this.comboCiudad.setSelectedItem(candidato.getCiudadOrigen());
                 this.campoDescripcion.setText(candidato.getDescripcion());
-                this.campoMensajeCampania.setText(candidato.getDescripcion());
+                this.campoMensajeCampania.setText(candidato.getMensajeCampania());
             }
         } else {
             mensaje = new ClsMensajes(ClsMensajes.ERROR, "Para Actualizar no puede estar vacia la tabla o debe seleccionar al menos un registro");

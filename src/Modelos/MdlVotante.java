@@ -26,7 +26,6 @@ public class MdlVotante extends Conexion {
        
     public ClsMensajes agregarVotante(ClsVotante votante) {
         
-        
         PreparedStatement ps = null;
         Connection con = Conexion();
         
@@ -55,7 +54,6 @@ public class MdlVotante extends Conexion {
                 con.close();
             } catch (SQLException e) {
                 System.err.println(e);
-                JOptionPane.showMessageDialog(null, "Entre al catch2:" + e);
             }
         }
         

@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.*;
 import java.sql.ResultSet;
 import java.util.LinkedList;
+import javax.swing.JOptionPane;
 /**
  *
  * @author hueck
@@ -44,6 +45,37 @@ public class MdlVoto extends Conexion{
         } catch (Exception e) {
             System.err.println(e);
             mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar Insertar un voto " + e);
+            return mensaje;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+    }
+    
+    public ClsMensajes actualizarVoto(ClsVoto voto) {
+        PreparedStatement ps = null;
+        Connection con = Conexion();
+
+        String sql = "update bd_elecciones.tbl_votos set id_candidato=?, id_votante=?, fecha_voto=now() where id_voto=?";
+        
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, voto.getIdCandidato());
+            ps.setString(2, voto.getIdVotante());
+            ps.setString(3, voto.getIdVoto());
+            int resultado = ps.executeUpdate();
+            if (resultado >= 1) {
+                mensaje = new ClsMensajes(ClsMensajes.OK, "Se ha actualizado el voto Correctamente");
+                return mensaje;
+            }
+            mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar actualizar el voto");
+            return mensaje;
+        } catch (Exception e) {
+            System.err.println(e);
+            mensaje = new ClsMensajes(ClsMensajes.ERROR, "Ha ocurrido un error al intentar actualizar el voto " + e);
             return mensaje;
         } finally {
             try {
