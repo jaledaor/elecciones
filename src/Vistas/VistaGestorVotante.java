@@ -98,6 +98,8 @@ public class VistaGestorVotante extends javax.swing.JFrame {
             }
         });
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel5.setText("Tipo Documento");
 
         comboTipoDocumento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cedula Ciudadania", "Pasaporte", "Cedula Extranjeria" }));
@@ -355,7 +357,7 @@ public class VistaGestorVotante extends javax.swing.JFrame {
 
     private void panelPestaniasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPestaniasMousePressed
         ClsVotante votante = new ClsVotante();
-        this.ObtenerVotantes();
+        this.obtenerVotantes();
     }//GEN-LAST:event_panelPestaniasMousePressed
 
     private void panelPestaniasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPestaniasMouseClicked
@@ -421,7 +423,7 @@ public class VistaGestorVotante extends javax.swing.JFrame {
                                     ClsVotante votante = new ClsVotante(tipoDocumento, numeroDocumento, nombre, telefono, correo);
                                     mensaje = this.controladorVotante.actualizarVotante(votante);
                                     if (mensaje.getTipo().equals(ClsMensajes.OK)) {
-                                        ObtenerVotantes();
+                                        obtenerVotantes();
                                         mensaje.mostrarMensajeOk();
                                         this.limpiarCampos();
                                     } else {
@@ -459,43 +461,47 @@ public class VistaGestorVotante extends javax.swing.JFrame {
             if (this.campoNumeroDocumento.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "El campo Numero de Documento no puede ser Vacio");
             } else {
-                numeroDocumento = this.campoNumeroDocumento.getText();
-                if (this.campoNombre.getText().equals("")) {
-                    JOptionPane.showMessageDialog(this, "El campo Nombre no puede ser Vacio");
+                if (!this.validaNumero(this.campoNumeroDocumento.getText())) {
+                    JOptionPane.showMessageDialog(this, "El campo Numero de Documento debe ser numerico");
                 } else {
-                    nombre = this.campoNombre.getText();
-                    if (this.campoTelefono.getText().equals("")) {
-                        JOptionPane.showMessageDialog(this, "El campo Telefono no puede ser Vacio");
+                    numeroDocumento = this.campoNumeroDocumento.getText();
+                    if (this.campoNombre.getText().equals("")) {
+                        JOptionPane.showMessageDialog(this, "El campo Nombre no puede ser Vacio");
                     } else {
-                        telefono = this.campoTelefono.getText();
+                        nombre = this.campoNombre.getText();
                         if (this.campoTelefono.getText().equals("")) {
-                            JOptionPane.showMessageDialog(this, "El campo telefono no puede ser Vacio");
+                            JOptionPane.showMessageDialog(this, "El campo Telefono no puede ser Vacio");
                         } else {
                             telefono = this.campoTelefono.getText();
-                            Boolean match = telefono.matches(PatronTel);
-                            if (match == true) {
-                                correo = this.campoCorreo.getText();
-                                Matcher mather = patron.matcher(correo);
-                                if (mather.find() == true) {
-                                    System.out.println("El email ingresado es válido.");
-                                    ClsVotante votante = new ClsVotante(tipoDocumento, numeroDocumento, nombre, telefono, correo);
-                                    mensaje = this.controladorVotante.agregarVotante(votante);
-                                    if (mensaje.getTipo().equals(ClsMensajes.OK)) {
-                                        ObtenerVotantes();
-                                        mensaje.mostrarMensajeOk();
-                                        this.limpiarCampos();
-                                    } else {
-                                        if (mensaje.getTipo().equals(ClsMensajes.ERROR)) {
-                                            mensaje.mostrarMensajeError();
+                            if (this.campoTelefono.getText().equals("")) {
+                                JOptionPane.showMessageDialog(this, "El campo telefono no puede ser Vacio");
+                            } else {
+                                telefono = this.campoTelefono.getText();
+                                Boolean match = telefono.matches(PatronTel);
+                                if (match == true) {
+                                    correo = this.campoCorreo.getText();
+                                    Matcher mather = patron.matcher(correo);
+                                    if (mather.find() == true) {
+                                        System.out.println("El email ingresado es válido.");
+                                        ClsVotante votante = new ClsVotante(tipoDocumento, numeroDocumento, nombre, telefono, correo);
+                                        mensaje = this.controladorVotante.agregarVotante(votante);
+                                        if (mensaje.getTipo().equals(ClsMensajes.OK)) {
+                                            obtenerVotantes();
+                                            mensaje.mostrarMensajeOk();
+                                            this.limpiarCampos();
+                                        } else {
+                                            if (mensaje.getTipo().equals(ClsMensajes.ERROR)) {
+                                                mensaje.mostrarMensajeError();
+                                            }
                                         }
+                                    } else {
+                                        System.out.println("El email ingresado es inválido.");
+                                        JOptionPane.showMessageDialog(this, "El correo ingresado no cumple con el formato solicitado: ejemplo@ejemplo.com");
                                     }
                                 } else {
-                                    System.out.println("El email ingresado es inválido.");
-                                    JOptionPane.showMessageDialog(this, "El correo ingresado no cumple con el formato solicitado: ejemplo@ejemplo.com");
+                                    System.out.println("El telefono ingresado es inválido.");
+                                    JOptionPane.showMessageDialog(this, "El telefono ingresado no es numerico");
                                 }
-                            } else {
-                                System.out.println("El telefono ingresado es inválido.");
-                                JOptionPane.showMessageDialog(this, "El telefono ingresado no es numerico");
                             }
                         }
                     }
@@ -541,7 +547,7 @@ public class VistaGestorVotante extends javax.swing.JFrame {
             String id = this.tablaVotantes.getValueAt(fila, columna).toString();
             mensaje = this.controladorVotante.eliminarVotante(id);
             if (mensaje.getTipo().equals(ClsMensajes.OK)) {
-                ObtenerVotantes();
+                obtenerVotantes();
                 mensaje.mostrarMensajeOk();
             } else {
                 if (mensaje.getTipo().equals(ClsMensajes.ERROR)) {
@@ -553,12 +559,12 @@ public class VistaGestorVotante extends javax.swing.JFrame {
             mensaje.mostrarMensajeError();
         }
     }//GEN-LAST:event_botonEliminarActionPerformed
-    public void ObtenerVotantes() {
+    public void obtenerVotantes() {
         this.listaVotantes = this.controladorVotante.ObtenerVotantes();
-        this.ActualizarTabla(listaVotantes);
+        this.actualizarTabla(listaVotantes);
     }
 
-    public void ActualizarTabla(LinkedList<ClsVotante> votantes) {
+    public void actualizarTabla(LinkedList<ClsVotante> votantes) {
         DefaultTableModel modelo = (DefaultTableModel) this.tablaVotantes.getModel();
         modelo.setRowCount(0);
 
@@ -583,6 +589,16 @@ public class VistaGestorVotante extends javax.swing.JFrame {
         this.campoNombre.setText("");
         this.campoTelefono.setText("");
         this.campoCorreo.setText("");
+    }
+
+    public boolean validaNumero(String numero) {
+        try {
+            Integer.parseInt(numero);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
     }
 
     /**

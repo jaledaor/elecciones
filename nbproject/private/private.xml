@@ -4,18 +4,23 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Vistas/VistaGestorVotante.java</file>
+            <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Modelos/MdlVoto.java</file>
             <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Modelos/MdlCandidato.java</file>
             <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Vistas/VistaGestorEleccion.java</file>
             <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Vistas/VistaMenu.java</file>
             <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Clases/ClsCandidato.java</file>
             <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Vistas/VistaGestorCandidato.java</file>
             <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Controladores/CtlCandidato.java</file>
+            <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Controladores/CtlVoto.java</file>
             <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Clases/ClsEleccion.java</file>
             <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Controladores/CtlVotante.java</file>
+            <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Clases/ClsVotante.java</file>
             <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Modelos/Conexion.java</file>
             <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Controladores/CtlEleccion.java</file>
             <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Modelos/MdlEleccion.java</file>
+            <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Clases/ClsVoto.java</file>
             <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Modelos/MdlVotante.java</file>
+            <file>file:/C:/extra/Curso_Java/Fundamentos/Elecciones/src/Vistas/VistaGestorVoto.java</file>
         </group>
     </open-files>
 </project-private>
