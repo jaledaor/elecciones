@@ -42,6 +42,9 @@ public class VistaMenu extends javax.swing.JFrame {
         botonElecciones = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 51, 51));

@@ -122,6 +122,8 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
             }
         });
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel1.setText("Numero de Documento");
 
         jLabel2.setText("Nombre");

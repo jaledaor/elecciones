@@ -98,6 +98,8 @@ public class VistaGestorVotante extends javax.swing.JFrame {
             }
         });
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel5.setText("Tipo Documento");
 
         comboTipoDocumento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cedula Ciudadania", "Pasaporte", "Cedula Extranjeria" }));
