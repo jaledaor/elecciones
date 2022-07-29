@@ -174,6 +174,11 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         });
 
         comboTipoDocumento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cedula Ciudadania", "Pasaporte", "Cedula Extranjeria" }));
+        comboTipoDocumento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboTipoDocumentoActionPerformed(evt);
+            }
+        });
 
         botonAgregar.setText("Agregar");
         botonAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -692,6 +697,10 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     private void campoNumeroDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoNumeroDocumentoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoNumeroDocumentoActionPerformed
+
+    private void comboTipoDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTipoDocumentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboTipoDocumentoActionPerformed
 
     public ClsCandidato buscarCandidato(String idCandidato) {
 

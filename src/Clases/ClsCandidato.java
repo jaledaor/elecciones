@@ -5,7 +5,6 @@
  */
 package Clases;
 
-import java.util.List;
 
 /**
  *
@@ -17,7 +16,6 @@ public class ClsCandidato extends ClsPersona{
     private String ciudadOrigen;
     private String descripcion;
     private String mensajeCampania;
-    private List propuestas;
 
     public ClsCandidato() {
     }
